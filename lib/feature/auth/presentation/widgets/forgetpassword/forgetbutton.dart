@@ -1,0 +1,45 @@
+import 'package:bookia/core/functions/navigations.dart';
+import 'package:bookia/core/styles/colors.dart';
+import 'package:bookia/core/widgets/main_button.dart';
+import 'package:bookia/feature/auth/presentation/cubit/auth_cubit.dart';
+import 'package:bookia/feature/auth/presentation/cubit/auth_state.dart';
+import 'package:bookia/feature/auth/presentation/screens/otp.dart';
+import 'package:bookia/feature/auth/presentation/widgets/dialog.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+
+class ForgetButton extends StatelessWidget {
+  const ForgetButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoadingState) {
+          ShowLoadingDialog(context);
+        } else if (state is AuthSuccessState) {
+          pop(context);
+          pushTo(context, const OtpVerificationScreen());
+        } else if (state is AuthErrorState) {
+          pop(context);
+          showErrorDialog(context, state.error);
+          pushTo(context, const OtpVerificationScreen());
+        }
+      },
+      builder: (context, state) {
+        var cubit = context.read<AuthCubit>();
+
+        return MainButton(
+          text: "Send Code",
+          onpress: () {
+            if (cubit.formKey.currentState!.validate()) {
+              cubit.forgotPassword();
+            }
+          },
+          backgroundcolor: AppColors.primary,
+          bordercolor: AppColors.primary,
+        );
+      },
+    );
+  }
+}

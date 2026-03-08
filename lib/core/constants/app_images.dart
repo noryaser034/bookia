@@ -11,4 +11,5 @@ abstract class AppImages {
   static const String logout = "assets/icon/Logout.svg";
   static const String profile = "assets/icon/Profile.svg";
   static const String search = "assets/icon/search.png";
+  static const String loading = "assets/image/Book Loader.json";
 }

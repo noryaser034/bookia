@@ -13,7 +13,9 @@ class CustomTextFormField extends StatelessWidget {
     this.onTap,
     this.focusNode,
     this.onChange,
+    this.controller,   // ⭐ أضفنا هذا
   });
+
   final String? hintText;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
@@ -22,9 +24,12 @@ class CustomTextFormField extends StatelessWidget {
   final Function()? onTap;
   final Function(String)? onChange;
   final FocusNode? focusNode;
+  final TextEditingController? controller;  // ⭐ أضفنا هذا
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      controller: controller, // ⭐ ربطنا الـ controller
       keyboardType: keyboardType,
       readOnly: readOnly,
       textInputAction: TextInputAction.next,
@@ -33,7 +38,9 @@ class CustomTextFormField extends StatelessWidget {
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
-        hintStyle: TextStyles.caption1.copyWith(color: AppColors.graycolor),
+        hintStyle: TextStyles.caption1.copyWith(
+          color: AppColors.graycolor,
+        ),
         fillColor: AppColors.accentcolor,
         filled: true,
         border: OutlineInputBorder(

@@ -4,13 +4,17 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.10.4
+  sdk: ^3.4.0
 
 dependencies:
+  dio: ^5.9.2
   flutter:
     sdk: flutter
+  flutter_bloc: ^9.1.1
   flutter_svg: ^2.2.3
   gap: ^3.0.1
+  lottie: ^3.3.2
+  pinput: ^5.0.0
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -27,4 +31,4 @@ flutter:
   fonts:
     - family: DMserif
       fonts:
-        - asset: assets\fonts\DMSerifDisplay-Regular.ttf
+        - asset: assets/fonts/DMSerifDisplay-Regular.ttf

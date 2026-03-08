@@ -1,5 +1,5 @@
-import 'package:bookia/auth/screens/login_screen.dart';
-import 'package:bookia/auth/screens/signup_screen.dart';
+import 'package:bookia/feature/auth/presentation/screens/login_screen.dart';
+import 'package:bookia/feature/auth/presentation/screens/signup_screen.dart';
 import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/styles/colors.dart';

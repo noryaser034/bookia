@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:bookia/core/constants/app_fonts.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_style.dart';
-import 'package:bookia/splach/splash_screen.dart';
+import 'package:bookia/feature/splach/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainApp extends StatelessWidget {

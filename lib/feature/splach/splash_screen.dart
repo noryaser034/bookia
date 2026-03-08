@@ -2,7 +2,7 @@ import 'package:bookia/core/constants/app_images.dart';
 import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/styles/text_style.dart';
 import 'package:bookia/core/widgets/custom_svg.dart';
-import 'package:bookia/welcome/welcome.dart';
+import 'package:bookia/feature/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -18,6 +18,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 3), () {
+      // ignore: use_build_context_synchronously
       pushReplacement(context, const Welcome());
     });
   }
