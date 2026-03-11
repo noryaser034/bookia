@@ -91,7 +91,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                   pushTo(context, Create());
                 },
                 backgroundcolor: AppColors.primary,
-                bordercolor: AppColors.primary,
+                bordercolor: AppColors.primary, textStyle: TextStyles.body.copyWith(color: Colors.white),
               ),
               const Spacer(),
               Center(

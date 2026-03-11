@@ -33,10 +33,8 @@ class Welcome extends StatelessWidget {
                 Spacer(flex: 2),
                 CustomSvg(path: AppImages.logosvg),
                 Gap(15),
-
                 Text("Order Your Book Now!", style: TextStyles.subtitle),
                 Spacer(flex: 4),
-
                 MainButton(
                   text: "Login",
                   onpress: () {
@@ -44,7 +42,9 @@ class Welcome extends StatelessWidget {
                   },
                   backgroundcolor: AppColors.primary,
                   bordercolor: AppColors.primary,
-                  textStyle: TextStyles.body.copyWith(color: Colors.white),
+                  textStyle: TextStyles.body.copyWith(
+                    color: Colors.white,
+                  ),
                 ),
                 Gap(15),
                 MainButton(

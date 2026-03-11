@@ -16,3 +16,7 @@ void popTo(BuildContext context, Widget newScreen) {
 }
 
 void pop(BuildContext context) => Navigator.pop(context);
+void pushToBase(BuildContext context, Widget newScreen) {
+  Navigator.pushAndRemoveUntil(context,
+      MaterialPageRoute(builder: (context) => newScreen), (route) => false);
+}

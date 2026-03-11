@@ -4,4 +4,6 @@ abstract class Apis {
   //auth
   static const String login = '/login';
   static const String register = '/register';
+  static const sliders = '/sliders';
+  static const productsBestseller = '/products-bestseller';
 }
