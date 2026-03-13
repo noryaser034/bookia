@@ -1,12 +1,13 @@
 import 'package:bookia/core/functions/navigations.dart';
+import 'package:bookia/core/router/router.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/feature/auth/presentation/cubit/auth_cubit.dart';
 import 'package:bookia/feature/auth/presentation/cubit/auth_state.dart';
-import 'package:bookia/feature/auth/presentation/screens/otp.dart';
 import 'package:bookia/feature/auth/presentation/widgets/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class ForgetButton extends StatelessWidget {
   const ForgetButton({super.key});
@@ -19,16 +20,14 @@ class ForgetButton extends StatelessWidget {
           ShowLoadingDialog(context);
         } else if (state is AuthSuccessState) {
           pop(context);
-          pushTo(context, const OtpVerificationScreen());
+          context.push(Routes.otp);
         } else if (state is AuthErrorState) {
           pop(context);
           showErrorDialog(context, state.error);
-          pushTo(context, const OtpVerificationScreen());
         }
       },
       builder: (context, state) {
         var cubit = context.read<AuthCubit>();
-
         return MainButton(
           text: "Send Code",
           onpress: () {

@@ -1,13 +1,12 @@
-import 'package:bookia/feature/auth/presentation/screens/login_screen.dart';
-import 'package:bookia/feature/auth/presentation/screens/signup_screen.dart';
+import 'package:bookia/core/router/router.dart';
 import 'package:bookia/core/constants/app_images.dart';
-import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_style.dart';
 import 'package:bookia/core/widgets/custom_svg.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class Welcome extends StatelessWidget {
   const Welcome({super.key});
@@ -38,25 +37,21 @@ class Welcome extends StatelessWidget {
                 MainButton(
                   text: "Login",
                   onpress: () {
-                    pushReplacement(context, LoginScreen());
+                    context.go(Routes.login);
                   },
                   backgroundcolor: AppColors.primary,
                   bordercolor: AppColors.primary,
-                  textStyle: TextStyles.body.copyWith(
-                    color: Colors.white,
-                  ),
+                  textStyle: TextStyles.body.copyWith(color: Colors.white),
                 ),
                 Gap(15),
                 MainButton(
                   text: "Register",
                   onpress: () {
-                    pushReplacement(context, SignUpScreen());
+                    context.go(Routes.register);
                   },
                   backgroundcolor: AppColors.background,
                   bordercolor: AppColors.darkcolor,
-                  textStyle: TextStyles.body.copyWith(
-                    color: AppColors.darkcolor,
-                  ),
+                  textStyle: TextStyles.body.copyWith(color: AppColors.darkcolor),
                 ),
                 Spacer(flex: 1),
               ],

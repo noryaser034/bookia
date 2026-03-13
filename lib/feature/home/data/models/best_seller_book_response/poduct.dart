@@ -36,9 +36,9 @@ class Product {
         category: json['category'] as String?,
       );
 
-  get author => null;
+  String? get author => category;
+  String? get title => name;
 
-  get title => null;
 
   Map<String, dynamic> toJson() => {
         'id': id,

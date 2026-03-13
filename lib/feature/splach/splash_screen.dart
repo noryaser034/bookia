@@ -1,13 +1,14 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
+import 'package:bookia/core/router/router.dart';
 import 'package:bookia/core/constants/app_images.dart';
-import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/services/local/sherd_pref.dart';
 import 'package:bookia/core/styles/text_style.dart';
 import 'package:bookia/core/widgets/custom_svg.dart';
-import 'package:bookia/feature/main/main_app_screen.dart';
-import 'package:bookia/feature/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -24,11 +25,9 @@ class _SplashScreenState extends State<SplashScreen> {
     log(token.toString());
     Future.delayed(const Duration(seconds: 3), () {
       if (token != null && token.isNotEmpty) {
-        // ignore: use_build_context_synchronously
-        pushReplacement(context, MainAppScreen());
+        context.go(Routes.main);
       } else {
-        // ignore: use_build_context_synchronously
-        pushReplacement(context, Welcome());
+        context.go(Routes.welcome);
       }
     });
   }

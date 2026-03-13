@@ -13,7 +13,7 @@ class CustomTextFormField extends StatelessWidget {
     this.onTap,
     this.focusNode,
     this.onChange,
-    this.controller,   // ⭐ أضفنا هذا
+    this.controller,
   });
 
   final String? hintText;
@@ -24,12 +24,12 @@ class CustomTextFormField extends StatelessWidget {
   final Function()? onTap;
   final Function(String)? onChange;
   final FocusNode? focusNode;
-  final TextEditingController? controller;  // ⭐ أضفنا هذا
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller, // ⭐ ربطنا الـ controller
+      controller: controller,
       keyboardType: keyboardType,
       readOnly: readOnly,
       textInputAction: TextInputAction.next,

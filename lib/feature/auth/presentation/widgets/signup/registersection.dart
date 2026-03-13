@@ -1,8 +1,8 @@
-import 'package:bookia/core/functions/navigations.dart';
+import 'package:bookia/core/router/router.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_style.dart';
-import 'package:bookia/feature/auth/presentation/screens/signup_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class RegisterSection extends StatelessWidget {
   const RegisterSection({super.key});
@@ -19,7 +19,7 @@ class RegisterSection extends StatelessWidget {
           ),
           GestureDetector(
             onTap: () {
-              pushTo(context, const SignUpScreen());
+              context.push(Routes.register);
             },
             child: Text(
               "Register Now",

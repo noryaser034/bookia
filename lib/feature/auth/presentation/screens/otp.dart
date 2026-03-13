@@ -1,9 +1,9 @@
-import 'package:bookia/core/functions/navigations.dart';
+import 'package:bookia/core/router/router.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_style.dart';
 import 'package:bookia/core/widgets/main_button.dart';
-import 'package:bookia/feature/auth/presentation/screens/Create.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:pinput/pinput.dart';
 
 class OtpVerificationScreen extends StatefulWidget {
@@ -42,9 +42,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 ),
                 child: IconButton(
                   icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
+                  onPressed: () => context.pop(),
                 ),
               ),
               const SizedBox(height: 40),
@@ -61,10 +59,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 defaultPinTheme: PinTheme(
                   width: 50,
                   height: 55,
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey.shade300),
                     borderRadius: BorderRadius.circular(12),
@@ -73,10 +68,7 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
                 focusedPinTheme: PinTheme(
                   width: 50,
                   height: 55,
-                  textStyle: const TextStyle(
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  textStyle: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   decoration: BoxDecoration(
                     border: Border.all(color: AppColors.primary),
                     borderRadius: BorderRadius.circular(12),
@@ -88,10 +80,11 @@ class _OtpVerificationScreenState extends State<OtpVerificationScreen> {
               MainButton(
                 text: "Verify",
                 onpress: () {
-                  pushTo(context, Create());
+                  context.push(Routes.createPassword);
                 },
                 backgroundcolor: AppColors.primary,
-                bordercolor: AppColors.primary, textStyle: TextStyles.body.copyWith(color: Colors.white),
+                bordercolor: AppColors.primary,
+                textStyle: TextStyles.body.copyWith(color: Colors.white),
               ),
               const Spacer(),
               Center(

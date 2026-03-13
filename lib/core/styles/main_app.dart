@@ -1,17 +1,18 @@
 import 'dart:io';
 import 'package:bookia/core/constants/app_fonts.dart';
+import 'package:bookia/core/router/router.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_style.dart';
-import 'package:bookia/feature/splach/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainApp extends StatelessWidget {
   const MainApp({super.key});
 
-  @override 
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
+      routerConfig: Routes.routes,
       theme: appTheme(),
       builder: (context, child) {
         return SafeArea(
@@ -20,7 +21,6 @@ class MainApp extends StatelessWidget {
           child: child ?? Container(),
         );
       },
-      home: const SplashScreen(),
     );
   }
 

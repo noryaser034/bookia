@@ -1,8 +1,6 @@
 import 'package:bookia/core/styles/text_style.dart';
-import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/feature/home/data/models/best_seller_book_response/poduct.dart';
 import 'package:flutter/material.dart';
-import 'package:gap/gap.dart';
 
 class BookCard extends StatelessWidget {
   final Product product;
@@ -16,7 +14,7 @@ class BookCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
-            color: Colors.black,
+            color: Colors.black12,
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -25,11 +23,11 @@ class BookCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image
           Expanded(
             flex: 3,
             child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(12)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(12)),
               child: Image.network(
                 product.image ?? '',
                 fit: BoxFit.cover,
@@ -44,52 +42,70 @@ class BookCard extends StatelessWidget {
                   if (loadingProgress == null) return child;
                   return Container(
                     color: Colors.grey[200],
-                    child: Center(
-                      child: CircularProgressIndicator(
-                        value: loadingProgress.expectedTotalBytes != null
-                            ? loadingProgress.cumulativeBytesLoaded /
-                                loadingProgress.expectedTotalBytes!
-                            : null,
-                      ),
-                    ),
+                    child: const Center(child: CircularProgressIndicator()),
                   );
                 },
               ),
             ),
           ),
-          
-          // Info
           Expanded(
             flex: 2,
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     product.title ?? 'Unknown',
-                    style: TextStyles.body.copyWith(fontSize: 14),
-                    maxLines: 1,
+                    style: TextStyles.body.copyWith(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const Gap(5),
                   Text(
                     product.author ?? '',
-                    style: TextStyles.body.copyWith(fontSize: 12, color: Colors.grey),
+                    style: TextStyles.body.copyWith(
+                      fontSize: 11,
+                      color: Colors.grey,
+                    ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const Gap(10),
-                  // Button
-                  SizedBox(
-                    width: double.infinity,
-                    child: MainButton(
-                      text: 'Add to Cart',
-                      onpress: () {},
-                      backgroundcolor: Colors.black,
-                      bordercolor: Colors.black,
-                      textStyle: TextStyles.body.copyWith(color: Colors.white),
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        '₹${product.priceAfterDiscount ?? product.price ?? ''}',
+                        style: TextStyles.body.copyWith(
+                          fontSize: 13,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 28,
+                        width: 60,
+                        child: ElevatedButton(
+                          onPressed: () {},
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            padding: EdgeInsets.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          child: Text(
+                            'Buy',
+                            style: TextStyles.body.copyWith(
+                              fontSize: 12,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
