@@ -26,9 +26,9 @@
 | ![Home](screenshots/Home.png) | ![Book Details](screenshots/book_details.png) |
 ---
 ### Shopping
-| Cart | Place Order |
-|:----:|:-----------:|
-| ![Cart](screenshots/cart.png) | ![Place Order](screenshots/place_order.png) |
+| Cart | Place Order |SUCCESS |
+|:----:|:-----------:|:-----------:|
+| ![Cart](screenshots/cart.png) | ![Place Order](screenshots/place_order.png) | ![SUCCESS](screenshots/success.png) |
 ---
 ### Wishlist
 | Wishlist |
