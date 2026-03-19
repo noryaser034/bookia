@@ -8,11 +8,11 @@ import 'package:bookia/feature/home/data/models/best_seller_books_response/produ
 import 'package:bookia/feature/main/main_app_screen.dart';
 import 'package:bookia/feature/splash/splash_screen.dart';
 import 'package:bookia/feature/welcome/welcome_screen.dart';
+import 'package:bookia/feature/place_order/presentation/page/congrats.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class AppRouter {
-  // configuration
   static GoRouter routes = GoRouter(
     navigatorKey: globalContext,
     routes: [
@@ -53,6 +53,10 @@ class AppRouter {
         builder: (context, state) {
           return PlaceOrderScreen(total: state.extra as String);
         },
+      ),
+      GoRoute(
+        path: Routes.orderSuccess,
+        builder: (context, state) => const OrderScreen(),
       ),
     ],
   );

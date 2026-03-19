@@ -1,4 +1,4 @@
-import 'package:bookia/core/functions/navigations.dart';
+import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/styles/text_styles.dart';
 import 'package:bookia/core/widgets/custom_back_button.dart';
 import 'package:bookia/core/widgets/custom_text_form_field.dart';
@@ -10,6 +10,7 @@ import 'package:bookia/feature/place_order/presentation/widgets/gov_bottom_sheet
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class PlaceOrderScreen extends StatefulWidget {
   final String total;
@@ -27,6 +28,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
   final _addressController = TextEditingController();
   final _phoneController = TextEditingController();
   final _governorateController = TextEditingController();
+  int? _selectedGovernorateId;
 
   @override
   void dispose() {
@@ -130,7 +132,7 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                               cubit.governorates,
                               (selectedGov) {
                                 setState(() {
-                                  var selectedGovernorateId = selectedGov.id;
+                                  _selectedGovernorateId = selectedGov.id;
                                   _governorateController.text =
                                       selectedGov.governorateNameEn ?? '';
                                 });
@@ -160,14 +162,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                   MainButton(
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        // Handle order submission
                         ScaffoldMessenger.of(context).showSnackBar(
                           const SnackBar(
                             content: Text('Order placed successfully!'),
                           ),
-                          
                         );
-                        pushReplacement(context, route)
+                        context.go(Routes.orderSuccess);
                       }
                     },
                     text: 'Submit Order',

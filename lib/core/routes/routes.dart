@@ -10,4 +10,5 @@ class Routes {
   static String main = '/main';
   static String details = '/details';
   static String placeOrder = '/place-order';
+  static String orderSuccess = '/order-success';
 }
