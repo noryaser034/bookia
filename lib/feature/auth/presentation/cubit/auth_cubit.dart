@@ -1,4 +1,4 @@
-import 'package:bookia/feature/auth/data/model/registerparams.dart';
+import 'package:bookia/feature/auth/data/models/register_params.dart';
 import 'package:bookia/feature/auth/data/repo/auth_repo.dart';
 import 'package:bookia/feature/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
@@ -7,78 +7,45 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class AuthCubit extends Cubit<AuthState> {
   AuthCubit() : super(AuthInitialState());
 
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final usernameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final passwordConfirmationController = TextEditingController();
 
-  final TextEditingController usernameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmPasswordController =
-      TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
-  /// LOGIN
   Future<void> login() async {
-
-    if (!formKey.currentState!.validate()) return;
-
     emit(AuthLoadingState());
-
-    final response = await AuthRepo.login(
-      Registerparams(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+    var response = await AuthRepo.login(
+      RegisterParams(
+        email: emailController.text,
+        password: passwordController.text,
       ),
     );
-
     if (response != null) {
       emit(AuthSuccessState());
     } else {
-      emit(AuthErrorState(error: "Login Failed"));
+      emit(AuthErrorState(message: "Failed to login"));
     }
   }
 
-  /// REGISTER
   Future<void> register() async {
-
-    if (!formKey.currentState!.validate()) return;
-
     emit(AuthLoadingState());
-
-    final response = await AuthRepo.register(
-      Registerparams(
-        name: usernameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-        passwordConfirmation: confirmPasswordController.text.trim(),
+    var response = await AuthRepo.register(
+      RegisterParams(
+        name: usernameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        passwordConfirmation: passwordConfirmationController.text,
       ),
     );
-
     if (response != null) {
       emit(AuthSuccessState());
     } else {
-      emit(AuthErrorState(error: "Register Failed"));
+      emit(AuthErrorState(message: "Failed to register"));
     }
   }
-
-/// FORGOT PASSWORD
-  Future<void> forgotPassword() async {
-
-    if (!formKey.currentState!.validate()) return;
-
-    emit(AuthLoadingState());
-
-    final response = await AuthRepo.forgotPassword(
-      Registerparams(
-        email: emailController.text.trim(),
-      ),
-    );
-
-    if (response != null) {
-      emit(AuthSuccessState());
-    } else {
-      emit(AuthErrorState(error: "Forgot Password Failed"));
-    }
-  }
-
-
-
 }
+
+// UI  => Cubit(Function) => Repo (Request Api)
+// Repo (Response) => Cubit(States) => UI

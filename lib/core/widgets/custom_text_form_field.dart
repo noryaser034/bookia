@@ -1,5 +1,3 @@
-import 'package:bookia/core/styles/colors.dart';
-import 'package:bookia/core/styles/text_style.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
@@ -13,9 +11,9 @@ class CustomTextFormField extends StatelessWidget {
     this.onTap,
     this.focusNode,
     this.onChange,
+    this.textInputAction,
     this.controller,
   });
-
   final String? hintText;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
@@ -24,29 +22,23 @@ class CustomTextFormField extends StatelessWidget {
   final Function()? onTap;
   final Function(String)? onChange;
   final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
   final TextEditingController? controller;
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       keyboardType: keyboardType,
       readOnly: readOnly,
-      textInputAction: TextInputAction.next,
       focusNode: focusNode,
-      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+      textInputAction: textInputAction,
+      onTapOutside: (event) {
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
       decoration: InputDecoration(
         hintText: hintText,
         prefixIcon: prefixIcon,
-        hintStyle: TextStyles.caption1.copyWith(
-          color: AppColors.graycolor,
-        ),
-        fillColor: AppColors.accentcolor,
-        filled: true,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(8),
-          borderSide: BorderSide.none,
-        ),
+        // labelText: 'Email',
       ),
       validator: validator,
       onChanged: onChange,

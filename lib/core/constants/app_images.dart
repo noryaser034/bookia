@@ -1,17 +1,16 @@
 abstract class AppImages {
-  static const String logosvg = 'assets/image/Logo.svg';
-  static const String welcome = 'assets/image/welcome.png';
-  static const String success = 'assets/image/Successmark.svg';
-  static const String back = 'assets/icon/back.svg';
-  static const String apple = 'assets/icon/apple.svg';
-  static const String eye = 'assets/icon/eye.svg';
-  static const String google = "assets/icon/google.svg";
-  static const String logout = "assets/icon/Logout.svg";
-  static const String profile = "assets/icon/Profile.svg";
-  static const String search = "assets/icon/search.svg";
-  static const String loading = "assets/image/Book Loader.json";
-  static const String homeSvg = "assets/icon/Home.svg";
-  static const String bookmarkSvg = "assets/icon/Bookmark.svg";
-  static const String cartSvg = "assets/icon/Category.svg";
-  static const String profileSvg = "assets/icon/Profile.svg";
+  static const String logoSvg = 'assets/images/logo.svg';
+  static const String successSvg = 'assets/images/success.svg';
+  static const String bg = 'assets/images/bg.png';
+  static const String appleSvg = 'assets/icons/apple.svg';
+  static const String backSvg = 'assets/icons/back.svg';
+  static const String bookmarkSvg = 'assets/icons/bookmark.svg';
+  static const String cameraSvg = 'assets/icons/camera.svg';
+  static const String cartSvg = 'assets/icons/cart.svg';
+  static const String googleSvg = 'assets/icons/google.svg';
+  static const String homeSvg = 'assets/icons/home.svg';
+  static const String logoutSvg = 'assets/icons/logout.svg';
+  static const String profileSvg = 'assets/icons/profile.svg';
+  static const String searchSvg = 'assets/icons/search-normal.svg';
+  static const String loadingJson = 'assets/images/loading.json';
 }

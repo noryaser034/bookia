@@ -1,7 +1,9 @@
 import 'package:bookia/core/constants/app_images.dart';
-import 'package:bookia/core/functions/CustomSvg.dart';
 import 'package:bookia/core/styles/colors.dart';
-import 'package:bookia/feature/home/presentation/page/home.dart';
+import 'package:bookia/core/widgets/custom_svg_picture.dart';
+import 'package:bookia/feature/cart/presentation/page/cart_screen.dart';
+import 'package:bookia/feature/home/presentation/page/home_screen.dart';
+import 'package:bookia/feature/wishlist/presentation/page/wishlist_screen.dart';
 import 'package:flutter/material.dart';
 
 class MainAppScreen extends StatefulWidget {
@@ -14,9 +16,9 @@ class MainAppScreen extends StatefulWidget {
 class _MainAppScreenState extends State<MainAppScreen> {
   int currentIndex = 0;
   List<Widget> screens = [
-    Home(),
-    Center(child: Text('Wishlist')),
-    Center(child: Text('Cart')),
+    HomeScreen(),
+    WishlistScreen(),
+    CartScreen(),
     Center(child: Text('Profile')),
   ];
   @override
@@ -40,7 +42,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
           icon: CustomSvgPicture(path: AppImages.homeSvg),
           activeIcon: CustomSvgPicture(
             path: AppImages.homeSvg,
-            color: AppColors.primary,
+            color: AppColors.primaryColor,
           ),
           label: 'Home',
         ),
@@ -48,7 +50,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
           icon: CustomSvgPicture(path: AppImages.bookmarkSvg),
           activeIcon: CustomSvgPicture(
             path: AppImages.bookmarkSvg,
-            color: AppColors.primary,
+            color: AppColors.primaryColor,
           ),
           label: 'Wishlist',
         ),
@@ -56,7 +58,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
           icon: CustomSvgPicture(path: AppImages.cartSvg),
           activeIcon: CustomSvgPicture(
             path: AppImages.cartSvg,
-            color: AppColors.primary,
+            color: AppColors.primaryColor,
           ),
           label: 'Cart',
         ),
@@ -64,7 +66,7 @@ class _MainAppScreenState extends State<MainAppScreen> {
           icon: CustomSvgPicture(path: AppImages.profileSvg),
           activeIcon: CustomSvgPicture(
             path: AppImages.profileSvg,
-            color: AppColors.primary,
+            color: AppColors.primaryColor,
           ),
           label: 'Profile',
         ),

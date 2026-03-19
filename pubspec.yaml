@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 0.1.0
 
 environment:
-  sdk: ^3.4.0
+  sdk: ^3.10.4
 
 dependencies:
   carousel_slider: ^5.1.2
@@ -15,7 +15,6 @@ dependencies:
   flutter_svg: ^2.2.3
   gap: ^3.0.1
   lottie: ^3.3.2
-  pinput: ^5.0.0
   shared_preferences: ^2.5.4
   shimmer: ^3.0.0
   smooth_page_indicator: ^2.0.1
@@ -30,10 +29,10 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/image/
-    - assets/icon/
+    - assets/images/
+    - assets/icons/
 
   fonts:
-    - family: DMserif
+    - family: DMSerif
       fonts:
         - asset: assets/fonts/DMSerifDisplay-Regular.ttf
