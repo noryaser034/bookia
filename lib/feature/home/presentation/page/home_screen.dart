@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
 
-// Person p = Person()..name = 'Mohamed'..display();
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -46,11 +45,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-// sliders => 600 ms
-// best seller books => 1 sec
-
-// in Parallel (sliders, best seller books)  => 1 sec
-// sliders , best seller books => 1 sec
-
-// emit success

@@ -1,3 +1,4 @@
+import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/styles/text_styles.dart';
 import 'package:bookia/core/widgets/custom_back_button.dart';
 import 'package:bookia/core/widgets/custom_text_form_field.dart';
@@ -164,7 +165,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                           const SnackBar(
                             content: Text('Order placed successfully!'),
                           ),
+                          
                         );
+                        pushReplacement(context, route)
                       }
                     },
                     text: 'Submit Order',
