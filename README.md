@@ -5,63 +5,32 @@
 ![GitHub](https://img.shields.io/badge/GitHub-Repository-black)
 
 ---
-
-## ✨ Welcome & Splash
-<details>
-  <summary>Show Screens</summary>
-
-<img src="screenshots/welcome.png" width="300"/> <img src="screenshots/splash.png" width="300"/>
-
-</details>
-
+### Welcome & Splash
+| Welcome Screen | Splash Screen |
+|:--------------:|:-------------:|
+| ![Welcome](screenshots/welcome.png) | ![Splash](screenshots/splash.png) |
 ---
-
-## 🔑 Auth Screens
-<details>
-  <summary>Show Screens</summary>
-
-<img src="screenshots/login.png" width="300"/> <img src="screenshots/register.png" width="300"/>
-
-</details>
-
+### Auth Screens
+| Login Screen | Register Screen |
+|:------------:|:---------------:|
+| ![Login](screenshots/login.png) | ![Register](screenshots/register.png) |
 ---
-
-## 🔐 Password Recovery
-<details>
-  <summary>Show Screens</summary>
-
-<img src="screenshots/forget.png" width="250"/> 
-<img src="screenshots/otp.png" width="250"/> 
-<img src="screenshots/createpass.png" width="250"/> 
-<img src="screenshots/pass.png" width="250"/> 
-
-</details>
-
+### Password Recovery
+| Forgot Password | OTP Verification | Create Password | Password Changed |
+|:---------------:|:----------------:|:---------------:|:----------------:|
+| ![Forget](screenshots/forget.png) | ![OTP](screenshots/otp.png) | ![Create](screenshots/createpass.png) | ![Pass](screenshots/pass.png) |
 ---
-
-## 🏠 Home & Details
-<details>
-  <summary>Show Screens</summary>
-
-<img src="screenshots/Home.png" width="300"/> <img src="screenshots/book_details.png" width="300"/>
-
-</details>
-
+### Home & Details
+| Home Screen | Book Details |
+|:-----------:|:------------:|
+| ![Home](screenshots/Home.png) | ![Book Details](screenshots/book_details.png) |
 ---
-
-## 🛒 Shopping
-<details>
-  <summary>Show Screens</summary>
-
-<img src="screenshots/cart.png" width="300"/> <img src="screenshots/place_order.png" width="300"/>
-
-</details>
-
+### Shopping
+| Cart | Place Order |
+|:----:|:-----------:|
+| ![Cart](screenshots/cart.png) | ![Place Order](screenshots/place_order.png) |
 ---
-
-## 💖 Wishlist
-<details>
-  <summary>Show Screens</summary>
-
-<img src="screenshots/wishlist.png" width="300"/>
-
+### Wishlist
+| Wishlist |
+|:--------:|
+| ![Wishlist](screenshots/wishlist.png) |
