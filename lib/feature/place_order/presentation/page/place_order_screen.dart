@@ -28,7 +28,6 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
   final _addressController = TextEditingController();
   final _phoneController = TextEditingController();
   final _governorateController = TextEditingController();
-  int? _selectedGovernorateId;
 
   @override
   void dispose() {
@@ -132,7 +131,6 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                               cubit.governorates,
                               (selectedGov) {
                                 setState(() {
-                                  _selectedGovernorateId = selectedGov.id;
                                   _governorateController.text =
                                       selectedGov.governorateNameEn ?? '';
                                 });

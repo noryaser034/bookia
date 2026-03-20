@@ -23,6 +23,7 @@ class _SplashScreenState extends State<SplashScreen> {
     String? token = SharedPref.getToken();
     log(token.toString());
     Future.delayed(const Duration(seconds: 3), () {
+      if (!mounted) return;
       if (token != null && token.isNotEmpty) {
         pushReplacement(context, Routes.main);
       } else {
@@ -39,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CustomSvgPicture(path: AppImages.logoSvg, width: 250),
-            Gap(10), // SizeBox(height: 10),
+            Gap(10),
             Text('Order Your Book Now!', style: TextStyles.subtitle2),
           ],
         ),

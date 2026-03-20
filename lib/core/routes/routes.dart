@@ -11,4 +11,9 @@ class Routes {
   static String details = '/details';
   static String placeOrder = '/place-order';
   static String orderSuccess = '/order-success';
+  static String myOrders = '/my-orders';
+  static String editProfile = '/edit-profile';
+  static String changePassword = '/change-password';
+static String faq = '/faq';
+static String contactUs = '/contact-us';
 }
