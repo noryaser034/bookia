@@ -1,5 +1,6 @@
 import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/functions/validations.dart';
+import 'package:bookia/core/localization/app_localizations.dart';
 import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_styles.dart';
@@ -20,6 +21,8 @@ class RegisterScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: false,
@@ -32,14 +35,14 @@ class RegisterScreen extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Already have an account?', style: TextStyles.caption1),
-            Gap(5),
+            Text(tr.tr("have_account"), style: TextStyles.caption1),
+            const Gap(5),
             GestureDetector(
               onTap: () {
                 pushReplacement(context, Routes.login);
               },
               child: Text(
-                'Login',
+                tr.tr("login"),
                 style: TextStyles.caption1.copyWith(
                   color: AppColors.primaryColor,
                 ),
@@ -53,6 +56,8 @@ class RegisterScreen extends StatelessWidget {
 
   Widget _registerBody(BuildContext context) {
     var cubit = context.read<AuthCubit>();
+    var tr = AppLocalizations.of(context);
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
@@ -71,68 +76,82 @@ class RegisterScreen extends StatelessWidget {
             child: Column(
               children: [
                 Text(
-                  'Hello! Register to get started.',
+                  tr.tr("register"),
                   style: TextStyles.headline,
                 ),
-                Gap(32),
+                const Gap(32),
+
+                /// Username
                 CustomTextFormField(
                   controller: cubit.usernameController,
-                  hintText: 'Username',
+                  hintText: tr.tr("enter_username"),
                   keyboardType: TextInputType.text,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your username';
+                      return tr.tr("enter_username");
                     }
                     return null;
                   },
                 ),
-                Gap(15),
+
+                const Gap(15),
+
+                /// Email
                 CustomTextFormField(
                   controller: cubit.emailController,
-                  hintText: 'Email',
+                  hintText: tr.tr("enter_email"),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your email';
+                      return tr.tr("enter_email");
                     } else if (!isEmailValid(value)) {
-                      return 'Please enter a valid email';
+                      return "Invalid email"; // ممكن تضيفيها في localization
                     }
                     return null;
                   },
                 ),
-                Gap(15),
+
+                const Gap(15),
+
+                /// Password
                 PasswordTextFormField(
                   controller: cubit.passwordController,
-                  hintText: 'Password',
+                  hintText: tr.tr("enter_password"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your password';
+                      return tr.tr("enter_password");
                     }
                     return null;
                   },
                 ),
-                Gap(15),
+
+                const Gap(15),
+
+                /// Confirm Password
                 PasswordTextFormField(
                   controller: cubit.passwordConfirmationController,
-                  hintText: 'Confirmation password',
+                  hintText: tr.tr("password"),
                   validator: (value) {
                     if (value!.isEmpty) {
-                      return 'Please enter your confirmation password';
+                      return tr.tr("password");
                     }
                     return null;
                   },
                 ),
-                if (true) Gap(30),
 
+                const Gap(30),
+
+                /// Register Button
                 MainButton(
-                  text: 'Register',
+                  text: tr.tr("register"),
                   onPressed: () {
                     if (cubit.formKey.currentState!.validate()) {
                       cubit.register();
                     }
                   },
                 ),
-                Gap(35),
+
+                const Gap(35),
               ],
             ),
           ),
@@ -141,5 +160,3 @@ class RegisterScreen extends StatelessWidget {
     );
   }
 }
-
-// [...[]]

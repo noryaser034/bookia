@@ -1,7 +1,6 @@
-import 'package:bookia/core/constants/app_images.dart';
+import 'package:bookia/core/localization/app_localizations.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_styles.dart';
-import 'package:bookia/core/widgets/custom_svg_picture.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 
@@ -10,68 +9,55 @@ class SocialLoginButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context);
+
     return Column(
       children: [
         Row(
           children: [
             Expanded(child: Divider()),
-            Gap(20),
-            Text('OR', style: TextStyles.caption1),
-            Gap(20),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Text(tr.tr("or")),
+            ),
             Expanded(child: Divider()),
           ],
         ),
-        Gap(20),
-        SocialButton(
-          path: AppImages.googleSvg,
-          text: 'Continue with Google',
+
+        const Gap(20),
+
+        /// Google Button
+        _socialButton(
+          text: tr.tr("google"),
           onTap: () {},
         ),
-        Gap(15),
-        SocialButton(
-          path: AppImages.appleSvg,
-          text: 'Continue with Apple',
+
+        const Gap(15),
+
+        /// Apple Button
+        _socialButton(
+          text: tr.tr("apple"),
           onTap: () {},
         ),
       ],
     );
   }
-}
 
-class SocialButton extends StatelessWidget {
-  const SocialButton({
-    super.key,
-    required this.path,
-    required this.text,
-    required this.onTap,
-  });
-  final String path;
-  final String text;
-  final Function() onTap;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget _socialButton({
+    required String text,
+    required VoidCallback onTap,
+  }) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(15),
+        height: 55,
+        width: double.infinity,
+        alignment: Alignment.center,
         decoration: BoxDecoration(
-          border: Border.all(color: AppColors.borderColor),
-          borderRadius: BorderRadius.circular(10),
+          border: Border.all(color: AppColors.greyColor),
+          borderRadius: BorderRadius.circular(12),
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CustomSvgPicture(path: path),
-            Gap(10),
-            Text(
-              text,
-              style: TextStyles.caption1.copyWith(
-                color: AppColors.darkGreyColor,
-              ),
-            ),
-          ],
-        ),
+        child: Text(text, style: TextStyles.body),
       ),
     );
   }

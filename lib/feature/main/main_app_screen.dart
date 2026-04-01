@@ -1,13 +1,10 @@
-import 'package:bookia/core/constants/app_images.dart';
-import 'package:bookia/core/styles/colors.dart';
-import 'package:bookia/core/widgets/custom_svg_picture.dart';
-import 'package:bookia/feature/cart/presentation/page/cart_screen.dart';
-import 'package:bookia/feature/home/presentation/page/home_screen.dart';
-import 'package:bookia/feature/profile/presentation/page/profile_screen.dart';
-import 'package:bookia/feature/wishlist/presentation/page/wishlist_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:bookia/feature/profile/presentation/cubit/profile_cubit.dart';
+import 'package:bookia/core/localization/app_localizations.dart';
+
+import '../home/presentation/page/home_screen.dart';
+import '../wishlist/presentation/page/wishlist_screen.dart';
+import '../cart/presentation/page/cart_screen.dart';
+import '../profile/presentation/page/profile_screen.dart';
 
 class MainAppScreen extends StatefulWidget {
   const MainAppScreen({super.key});
@@ -18,66 +15,55 @@ class MainAppScreen extends StatefulWidget {
 
 class _MainAppScreenState extends State<MainAppScreen> {
   int currentIndex = 0;
-  List<Widget> screens = [
-    HomeScreen(),
-    WishlistScreen(),
-    CartScreen(),
-    BlocProvider(
-      create: (context) => ProfileCubit(),
-      child: const ProfileScreen(),
-    ),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    var loc = AppLocalizations.of(context);
+
     return Scaffold(
-      body: screens[currentIndex],
-      bottomNavigationBar: _bottomNavBar(),
+      body: _getScreen(),
+
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: currentIndex,
+        onTap: (index) {
+          setState(() {
+            currentIndex = index;
+          });
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: loc.tr("home"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite),
+            label: loc.tr("wishlist"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.shopping_cart),
+            label: loc.tr("cart"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: loc.tr("profile"),
+          ),
+        ],
+      ),
     );
   }
 
-  BottomNavigationBar _bottomNavBar() {
-    return BottomNavigationBar(
-      currentIndex: currentIndex,
-      onTap: (index) {
-        setState(() {
-          currentIndex = index;
-        });
-      },
-      items: [
-        BottomNavigationBarItem(
-          icon: CustomSvgPicture(path: AppImages.homeSvg),
-          activeIcon: CustomSvgPicture(
-            path: AppImages.homeSvg,
-            color: AppColors.primaryColor,
-          ),
-          label: 'Home',
-        ),
-        BottomNavigationBarItem(
-          icon: CustomSvgPicture(path: AppImages.bookmarkSvg),
-          activeIcon: CustomSvgPicture(
-            path: AppImages.bookmarkSvg,
-            color: AppColors.primaryColor,
-          ),
-          label: 'Wishlist',
-        ),
-        BottomNavigationBarItem(
-          icon: CustomSvgPicture(path: AppImages.cartSvg),
-          activeIcon: CustomSvgPicture(
-            path: AppImages.cartSvg,
-            color: AppColors.primaryColor,
-          ),
-          label: 'Cart',
-        ),
-        BottomNavigationBarItem(
-          icon: CustomSvgPicture(path: AppImages.profileSvg),
-          activeIcon: CustomSvgPicture(
-            path: AppImages.profileSvg,
-            color: AppColors.primaryColor,
-          ),
-          label: 'Profile',
-        ),
-      ],
-    );
+  Widget _getScreen() {
+    switch (currentIndex) {
+      case 0:
+        return const HomeScreen();
+      case 1:
+        return const WishlistScreen();
+      case 2:
+        return const CartScreen();
+      case 3:
+        return const ProfileScreen();
+      default:
+        return const HomeScreen();
+    }
   }
 }

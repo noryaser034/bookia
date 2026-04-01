@@ -1,5 +1,6 @@
 import 'package:bookia/core/functions/navigations.dart';
 import 'package:bookia/core/functions/validations.dart';
+import 'package:bookia/core/localization/app_localizations.dart';
 import 'package:bookia/core/routes/routes.dart';
 import 'package:bookia/core/styles/colors.dart';
 import 'package:bookia/core/styles/text_styles.dart';
@@ -21,24 +22,25 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var tr = AppLocalizations.of(context);
+
     return Scaffold(
       appBar: AppBar(
-        centerTitle: false,
-        automaticallyImplyLeading: false,
         title: CustomBackButton(),
+        automaticallyImplyLeading: false,
       ),
       body: _loginBody(context),
       bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(22, 5, 22, 22),
+        padding: const EdgeInsets.all(22),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Don\'t have an account?', style: TextStyles.caption1),
-            Gap(5),
+            Text(tr.tr("no_account"), style: TextStyles.caption1),
+            const Gap(5),
             GestureDetector(
-              onTap: () {},
+              onTap: () => pushReplacement(context, Routes.register),
               child: Text(
-                'Register',
+                tr.tr("register"),
                 style: TextStyles.caption1.copyWith(
                   color: AppColors.primaryColor,
                 ),
@@ -52,6 +54,8 @@ class LoginScreen extends StatelessWidget {
 
   Widget _loginBody(BuildContext context) {
     var cubit = context.read<AuthCubit>();
+    var tr = AppLocalizations.of(context);
+
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthSuccessState) {
@@ -66,60 +70,37 @@ class LoginScreen extends StatelessWidget {
       child: MyBodyView(
         child: Form(
           key: cubit.formKey,
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Text(
-                  'Welcome back! Glad to see you, Again!',
-                  style: TextStyles.headline,
-                ),
-                Gap(32),
-                CustomTextFormField(
-                  controller: cubit.emailController,
-                  hintText: 'Enter your email',
-                  keyboardType: TextInputType.emailAddress,
-                  validator: (value) {
-                    if (value!.isEmpty) {
-                      return 'Please enter your email';
-                    } else if (!isEmailValid(value)) {
-                      return 'Please enter a valid email';
-                    }
-                    return null;
-                  },
-                ),
-                Gap(15),
-                PasswordTextFormField(
-                  controller: cubit.passwordController,
-                  hintText: 'Enter your password',
-                ),
-                Gap(15),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    GestureDetector(
-                      onTap: () {},
-                      child: Text(
-                        'Forgot Password?',
-                        style: TextStyles.caption1.copyWith(
-                          color: AppColors.darkGreyColor,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Gap(30),
-                MainButton(
-                  text: 'Login',
-                  onPressed: () {
-                    if (cubit.formKey.currentState!.validate()) {
-                      cubit.login();
-                    }
-                  },
-                ),
-                Gap(35),
-                SocialLoginButtons(),
-              ],
-            ),
+          child: Column(
+            children: [
+              Text(tr.tr("welcome_back"), style: TextStyles.headline),
+              const Gap(32),
+              CustomTextFormField(
+                controller: cubit.emailController,
+                hintText: tr.tr("enter_email"),
+                validator: (v) => v!.isEmpty ? tr.tr("enter_email") : null,
+              ),
+              const Gap(15),
+              PasswordTextFormField(
+                controller: cubit.passwordController,
+                hintText: tr.tr("enter_password"),
+              ),
+              const Gap(15),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(tr.tr("forgot_password")),
+              ),
+              const Gap(30),
+              MainButton(
+                text: tr.tr("login"),
+                onPressed: () {
+                  if (cubit.formKey.currentState!.validate()) {
+                    cubit.login();
+                  }
+                },
+              ),
+              const Gap(35),
+              SocialLoginButtons(),
+            ],
           ),
         ),
       ),
