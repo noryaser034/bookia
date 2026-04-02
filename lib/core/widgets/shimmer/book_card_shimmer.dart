@@ -1,4 +1,4 @@
-import 'package:bookia/core/styles/colors.dart';
+import 'package:bookia/core/styles/app_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:shimmer/shimmer.dart';

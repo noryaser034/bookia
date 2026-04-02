@@ -1,48 +1,64 @@
+import 'package:bookia/core/styles/app_colors.dart';
+import 'package:bookia/core/styles/text_styles.dart';
 import 'package:flutter/material.dart';
 
 class CustomTextFormField extends StatelessWidget {
   const CustomTextFormField({
     super.key,
-    this.hintText,
+    required this.hint,
     this.keyboardType,
     this.validator,
-    this.prefixIcon,
+    this.icon,
+    this.controller,
     this.readOnly = false,
     this.onTap,
-    this.focusNode,
-    this.onChange,
-    this.textInputAction,
-    this.controller,
+    this.onChanged,
   });
-  final String? hintText;
+
+  final String hint;
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
-  final Widget? prefixIcon;
-  final bool readOnly;
-  final Function()? onTap;
-  final Function(String)? onChange;
-  final FocusNode? focusNode;
-  final TextInputAction? textInputAction;
+  final Widget? icon;
   final TextEditingController? controller;
+  final bool readOnly;
+  final VoidCallback? onTap;
+  final void Function(String)? onChanged;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
       readOnly: readOnly,
-      focusNode: focusNode,
-      textInputAction: textInputAction,
+      onTap: onTap,
+      keyboardType: keyboardType,
       onTapOutside: (event) {
         FocusManager.instance.primaryFocus?.unfocus();
       },
+      controller: controller,
       decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: prefixIcon,
-        // labelText: 'Email',
+        filled: true,
+        fillColor: AppColors.accentColor,
+        hintText: hint,
+        hintStyle: TextStyles.w400s15.copyWith(color: AppColors.grayColor),
+        prefixIcon: icon,
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.borderColor),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.borderColor),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.errorColor),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(8),
+          borderSide: const BorderSide(color: AppColors.errorColor),
+        ),
       ),
       validator: validator,
-      onChanged: onChange,
-      onTap: onTap,
+      onChanged: onChanged,
     );
   }
 }

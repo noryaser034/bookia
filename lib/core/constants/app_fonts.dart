@@ -1,3 +1,3 @@
 abstract class AppFonts {
-  static const String dMSerif = 'DMSerif';
+  static const String dmSerifDisplay = "DMSerifDisplay";
 }

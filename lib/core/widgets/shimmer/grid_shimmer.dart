@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 class GridShimmer extends StatelessWidget {
   const GridShimmer({
     super.key,
-    this.itemCount = 6,
+    this.itemCount = 4,
     this.crossAxisCount = 2,
     this.childAspectRatio = 0.65,
     this.crossAxisSpacing = 15,
     this.mainAxisSpacing = 15,
-    this.shrinkWrap = true,
   });
 
   final int itemCount;
@@ -17,13 +16,12 @@ class GridShimmer extends StatelessWidget {
   final double childAspectRatio;
   final double crossAxisSpacing;
   final double mainAxisSpacing;
-  final bool shrinkWrap;
 
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
       physics: const NeverScrollableScrollPhysics(),
-      shrinkWrap: shrinkWrap,
+      shrinkWrap: true,
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: crossAxisCount,
         childAspectRatio: childAspectRatio,

@@ -5,50 +5,290 @@ class AppLocalizations {
 
   AppLocalizations(this.locale);
 
-  static AppLocalizations of(BuildContext context) {
-    return Localizations.of<AppLocalizations>(context, AppLocalizations)!;
+  static AppLocalizations? of(BuildContext context) {
+    return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
   static const Map<String, Map<String, String>> _localizedValues = {
     'en': {
-      "login": "Login",
-      "register": "Register",
-      "home": "Home",
-      "wishlist": "Wishlist",
-      "cart": "Cart",
-      "profile": "Profile",
-      "order_now": "Order Your Book Now!",
-      "no_orders": "No orders yet",
+      'order_now': 'Order Your Book Now!',
+      'login': 'Login',
+      'register': 'Register',
+      'welcome_back': 'Welcome back! Glad to see you, Again!',
+      'email_hint': 'Enter your email',
+      'password_hint': 'Enter Your Password',
+      'forgot_password': 'Forgot Password?',
+      'or': 'Or',
+      'google_auth': 'Sign in with Google',
+      'apple_auth': 'Sign in with Apple',
+      'no_account': 'Don’t have an account?',
+      'register_now': 'Register Now',
+      'hello': 'Hello! Register to get started',
+      'username_hint': 'Username',
+      'confirm_password': 'Confirm password',
+      'already_have_account': 'Already have an account?',
+      'login_now': 'Login Now',
+      'best_seller': 'Best Seller',
+      'search_hint': 'Search...',
+      'profile': 'Profile',
+      'cart': 'Cart',
+      'wishlist': 'Wishlist',
+      'home': 'Home',
+      'edit_profile': 'Edit Profile',
+      'my_orders': 'My Orders',
+      'reset_password': 'Reset Password',
+      'faq': 'FAQ',
+      'contact_us': 'Contact Us',
+      'privacy_terms': 'Privacy & Terms',
+      'logout': 'Logout',
+      'fullname': 'Full Name',
+      'phone': 'Phone',
+      'address': 'Address',
+      'save': 'Save Changes',
+      'cancel': 'Cancel',
+      'delete': 'Delete',
+      'confirm': 'Confirm',
+      'back_to_login': 'Back to Login',
+      'send_code': 'Send Code',
+      'verify': 'Verify',
+      'resend': 'Resend',
+      'otp_verification': 'OTP Verification',
+      'otp_verification_subtitle':
+          'Enter the verification code we just sent on your email address.',
+      'forgot_password_title': 'Forgot Password?',
+      'forgot_password_subtitle':
+          'Don\'t worry! It occurs. Please enter the email address linked with your account.',
+      'create_new_password': 'Create New Password',
+      'create_new_password_subtitle':
+          'Your new password must be unique from those previously used.',
+      'password_changed': 'Password Changed!',
+      'password_changed_subtitle':
+          'Your password has been changed successfully.',
+      'new_password': 'New Password',
+      'add_to_cart': 'Add to Cart',
+      'already_in_cart': 'Already in Cart',
+      'checkout': 'Checkout',
+      'order_summary': 'Order Summary',
+      'total': 'Total',
+      'sub_total': 'Sub Total',
+      'discount': 'Discount',
+      'order_id': 'Order ID: {id}',
+      'order_date': 'Order Date: {date}',
+      'status': 'Status: {status}',
+      'no_orders': 'No orders found',
+      'no_items_in_cart': 'No items in cart',
+      'no_items_in_wishlist': 'No items in wishlist',
+      'no_products_found': 'No products found',
+      'loading': 'Loading...',
+      'error': 'An error occurred',
+      'place_order': 'Place Order',
+      'delivery_address': 'Delivery Address',
+      'payment_summary': 'Payment Summary',
+      'choose_governorate': 'Choose Governorate',
+      'congrats': 'Success!',
+      'order_success': 'Your order has been placed successfully',
+      'back_to_home': 'Back to Home',
+      'camera': 'Camera',
+      'gallery': 'Gallery',
+      'choose_image': 'Choose Image',
+      'update_password': 'Update Password',
+      'current_password': 'Current Password',
+      'enter_fullname': 'Enter your full name',
+      'enter_phone': 'Enter your phone number',
+      'enter_address': 'Enter your address',
+      'validation_email_empty': 'Enter Your Email',
+      'validation_email_invalid': 'Enter Your Correct Email',
+      'validation_name_empty': 'Please Enter the User Name',
+      'validation_name_invalid': 'Please Enter Valid Name More than 3 Chr',
+      'validation_password_empty': 'Create Your Password',
+      'validation_password_invalid':
+          'Password Should Be (6+ chars, upper, lower, digit)',
+      'validation_confirm_password_empty': 'Confirm Password',
+      'validation_confirm_password_invalid': 'password not matching',
+      'validation_address_empty': 'Please Enter Your Address',
+      'validation_address_short': 'Address is too short',
+      'validation_phone_empty': 'Please Enter Your Phone Number',
+      'validation_phone_invalid': 'Please Enter Valid Phone Number',
+      'validation_governorate_empty': 'Please select governorate',
+      'login_failed': 'Login Failed',
+      'register_failed': 'Register Failed',
+      'wrong_email': 'Wrong Email',
+      'failed_to_load_data': 'Failed to load data',
+      'failed_to_update': 'Update failed. Please try again.',
+      'failed_to_logout': 'Failed to log out',
+      'reset_password_failed': 'Reset password failed',
+      'search_for_books': 'Search for books...',
+      'details': 'Details',
+      'qty': 'Qty: {qty}',
+      'price_currency': 'EGP',
+      'buy': 'Buy',
+      'added_to_wishlist': 'Added to wish list successfully',
+      'failed_to_add_to_wishlist': 'Failed to add to wish list',
+      'added_to_cart': 'Added to cart successfully',
+      'failed_to_add_to_cart': 'Failed to add to cart',
+      'checkout_success': 'Checkout successful',
+      'checkout_failed': 'Checkout failed',
+      'update_profile': 'Update Profile',
+      'select_governorate': 'Select Governorate',
+      'validation_current_password_empty': 'Enter Your Current Password',
+      'choose_profile_picture': 'Choose Profile Picture',
+      'no_name': 'No Name',
+      'order_items': 'Order Items',
+      'place_order_subtitle': 'Please enter your order details below.',
+      'order_success_subtitle': 'Your order will be delivered soon.\nThank you for choosing our app!',
+      'order_no': '#{id}',
+      'unknown': 'Unknown',
+      'status_label': 'Status',
+      'date_label': 'Date',
     },
     'ar': {
-      "login": "تسجيل الدخول",
-      "register": "إنشاء حساب",
-      "home": "الرئيسية",
-      "wishlist": "المفضلة",
-      "cart": "السلة",
-      "profile": "حسابي",
-      "order_now": "اطلب كتابك الآن!",
-      "no_orders": "لا توجد طلبات",
+      'order_now': 'اطلب كتابك الآن!',
+      'login': 'تسجيل الدخول',
+      'register': 'إنشاء حساب',
+      'welcome_back': 'أهلاً بك مجدداً! يسعدنا رؤيتك مرة أخرى!',
+      'email_hint': 'أدخل البريد الإلكتروني',
+      'password_hint': 'أدخل كلمة المرور',
+      'forgot_password': 'نسيت كلمة المرور؟',
+      'or': 'أو',
+      'google_auth': 'تسجيل الدخول بواسطة جوجل',
+      'apple_auth': 'تسجيل الدخول بواسطة أبل',
+      'no_account': 'ليس لديك حساب؟',
+      'register_now': 'سجل الآن',
+      'hello': 'مرحباً! أنشئ حساباً للبدء',
+      'username_hint': 'اسم المستخدم',
+      'confirm_password': 'تأكيد كلمة المرور',
+      'already_have_account': 'لديك حساب بالفعل؟',
+      'login_now': 'سجل دخولك الآن',
+      'best_seller': 'الأكثر مبيعاً',
+      'search_hint': 'بحث...',
+      'profile': 'الملف الشخصي',
+      'cart': 'السلة',
+      'wishlist': 'قائمة الأمنيات',
+      'home': 'الرئيسية',
+      'edit_profile': 'تعديل الملف الشخصي',
+      'my_orders': 'طلباتي',
+      'reset_password': 'إعادة تعيين كلمة المرور',
+      'faq': 'الأسئلة الشائعة',
+      'contact_us': 'اتصل بنا',
+      'privacy_terms': 'الخصوصية والشروط',
+      'logout': 'تسجيل الخروج',
+      'fullname': 'الاسم الكامل',
+      'phone': 'رقم الهاتف',
+      'address': 'العنوان',
+      'save': 'حفظ التغييرات',
+      'cancel': 'إلغاء',
+      'delete': 'حذف',
+      'confirm': 'تأكيد',
+      'back_to_login': 'العودة لتسجيل الدخول',
+      'send_code': 'إرسال الرمز',
+      'verify': 'تحقق',
+      'resend': 'إعادة إرسال',
+      'otp_verification': 'التحقق من الرمز',
+      'otp_verification_subtitle':
+          'أدخل رمز التحقق الذي أرسلناه للتو إلى بريدك الإلكتروني.',
+      'forgot_password_title': 'نسيت كلمة المرور؟',
+      'forgot_password_subtitle':
+          'لا تقلق! هذا يحدث. يرجى إدخال عنوان البريد الإلكتروني المرتبط بحسابك.',
+      'create_new_password': 'إنشاء كلمة مرور جديدة',
+      'create_new_password_subtitle':
+          'يجب أن تكون كلمة المرور الجديدة فريدة عن تلك المستخدمة سابقاً.',
+      'password_changed': 'تم تغيير كلمة المرور!',
+      'password_changed_subtitle': 'لقد تم تغيير كلمة المرور الخاصة بك بنجاح.',
+      'new_password': 'كلمة المرور الجديدة',
+      'add_to_cart': 'إضافة إلى السلة',
+      'already_in_cart': 'موجود في السلة',
+      'checkout': 'الدفع',
+      'order_summary': 'ملخص الطلب',
+      'total': 'الإجمالي',
+      'sub_total': 'المجموع الفرعي',
+      'discount': 'الخصم',
+      'order_id': 'رقم الطلب: {id}',
+      'order_date': 'تاريخ الطلب: {date}',
+      'status': 'الحالة: {status}',
+      'no_orders': 'لا توجد طلبات',
+      'no_items_in_cart': 'السلة فارغة',
+      'no_items_in_wishlist': 'قائمة الأمنيات فارغة',
+      'no_products_found': 'لا توجد منتجات',
+      'loading': 'جاري التحميل...',
+      'error': 'حدث خطأ ما',
+      'place_order': 'إتمام الطلب',
+      'delivery_address': 'عنوان التوصيل',
+      'payment_summary': 'ملخص الدفع',
+      'choose_governorate': 'اختر المحافظة',
+      'congrats': 'نجاح!',
+      'order_success': 'تم تقديم طلبك بنجاح',
+      'back_to_home': 'العودة للرئيسية',
+      'camera': 'الكاميرا',
+      'gallery': 'المعرض',
+      'choose_image': 'اختر صورة',
+      'update_password': 'تحديث كلمة المرور',
+      'current_password': 'كلمة المرور الحالية',
+      'enter_fullname': 'أدخل اسمك بالكامل',
+      'enter_phone': 'أدخل رقم هاتفك',
+      'enter_address': 'أدخل عنوانك',
+      'validation_email_empty': 'يرجى إدخال البريد الإلكتروني',
+      'validation_email_invalid': 'يرجى إدخال بريد إلكتروني صحيح',
+      'validation_name_empty': 'يرجى إدخال اسم المستخدم',
+      'validation_name_invalid': 'يرجى إدخال اسم صحيح أكثر من ٣ أحرف',
+      'validation_password_empty': 'يرجى إنشاء كلمة مرور',
+      'validation_password_invalid':
+          'يجب أن تكون كلمة المرور (٦+ أحرف، حرف كبير، حرف صغير، رقم)',
+      'validation_confirm_password_empty': 'يرجى تأكيد كلمة المرور',
+      'validation_confirm_password_invalid': 'كلمة المرور غير متطابقة',
+      'validation_address_empty': 'يرجى إدخال العنوان',
+      'validation_address_short': 'العنوان قصير جداً',
+      'validation_phone_empty': 'يرجى إدخال رقم الهاتف',
+      'validation_phone_invalid': 'يرجى إدخال رقم هاتف صحيح',
+      'validation_governorate_empty': 'يرجى اختيار المحافظة',
+      'login_failed': 'فشل تسجيل الدخول',
+      'register_failed': 'فشل إنشاء الحساب',
+      'wrong_email': 'البريد الإلكتروني خاطئ',
+      'reset_password_failed': 'فشل إعادة تعيين كلمة المرور',
+      'failed_to_load_data': 'فشل في تحميل البيانات',
+      'failed_to_update': 'فشل التحديث. يرجى المحاولة مرة أخرى.',
+      'failed_to_logout': 'فشل تسجيل الخروج',
+      'search_for_books': 'ابحث عن كتب...',
+      'details': 'التفاصيل',
+      'qty': 'الكمية: {qty}',
+      'price_currency': 'جنيه',
+      'buy': 'اشتري',
+      'added_to_wishlist': 'تمت الإضافة لقائمة الأمنيات بنجاح',
+      'failed_to_add_to_wishlist': 'فشل في الإضافة لقائمة الأمنيات',
+      'added_to_cart': 'تمت الإضافة للسلة بنجاح',
+      'failed_to_add_to_cart': 'فشل في الإضافة للسلة',
+      'checkout_success': 'جاري الانتقال لصفحة الطلب',
+      'checkout_failed': 'فشل في عملية الانتقال للطلب',
+      'update_profile': 'تعديل الملف الشخصي',
+      'select_governorate': 'اختر المحافظة',
+      'validation_current_password_empty': 'أدخل كلمة المرور الحالية',
+      'choose_profile_picture': 'اختر صورة الملف الشخصي',
+      'no_name': 'بدون اسم',
+      'order_items': 'الأصناف المطلوبة',
+      'place_order_subtitle': 'يرجى إدخال تفاصيل طلبك أدناه.',
+      'order_success_subtitle': 'سيتم توصيل طلبك قريباً.\nشكراً لاختيارك تطبيقنا!',
+      'order_no': '#{id}',
+      'unknown': 'غير معروف',
+      'status_label': 'الحالة',
+      'date_label': 'التاريخ',
     },
   };
 
-  String tr(String key) {
-    return _localizedValues[locale.languageCode]![key] ?? key;
+  String translate(String key, {Map<String, String>? replacements}) {
+    String value = _localizedValues[locale.languageCode]?[key] ?? key;
+    if (replacements != null) {
+      replacements.forEach((placeholder, replacement) {
+        value = value.replaceAll('{$placeholder}', replacement);
+      });
+    }
+    return value;
   }
-
- 
-  static const LocalizationsDelegate<AppLocalizations> delegate =
-      _AppLocalizationsDelegate();
 }
 
-class _AppLocalizationsDelegate
-    extends LocalizationsDelegate<AppLocalizations> {
-  const _AppLocalizationsDelegate();
+class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
+  const AppLocalizationsDelegate();
 
   @override
-  bool isSupported(Locale locale) {
-    return ['en', 'ar'].contains(locale.languageCode);
-  }
+  bool isSupported(Locale locale) => ['en', 'ar'].contains(locale.languageCode);
 
   @override
   Future<AppLocalizations> load(Locale locale) async {
@@ -56,5 +296,12 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool shouldReload(_) => false;
+  bool shouldReload(AppLocalizationsDelegate old) => false;
+}
+
+extension LocalizationExtension on BuildContext {
+  String translate(String key, {Map<String, String>? replacements}) {
+    return AppLocalizations.of(this)?.translate(key, replacements: replacements) ??
+        key;
+  }
 }
