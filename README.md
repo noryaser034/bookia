@@ -158,22 +158,3 @@ The project utilizes **Cubits** for predictable state isolation per feature:
 
 ---
 
-## 👨‍💻 Developed By
-
-**Mina Adly**  
-*Flutter Developer & Professional Warehouse Manager*
-
-Passionate about building modern, clean, and scalable mobile applications using Flutter. Focused on clean architecture, optimized state management, and high-quality user experiences.
-
-### 📬 Contact & Collaboration
-I'm interested in freelance opportunities and open for collaboration. Feel free to reach out!
-
-- **GitHub:** https://github.com/KingNarmar
-- **LinkedIn:** https://www.linkedin.com/in/mina-bushra-733993317/
-- **Email:** adlymina99@gmail.com
-- **Mobile:** +971581255496 - +201555212015
-
----
-
-### ⭐ Show your support
-If you find this project helpful for your learning, please give it a star! It helps more people discover this repository.
