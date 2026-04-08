@@ -11,9 +11,11 @@ class CartCubit extends Cubit<CartState> {
 
   Data? cartData;
   CheckoutData? checkoutData;
+
   List<CartItem?> get cartItems => cartData?.cartItems ?? [];
 
-  double get totalPrice => double.tryParse(cartData?.total ?? '0') ?? 0.0;
+  double get totalPrice =>
+      double.tryParse(cartData?.total ?? '0') ?? 0.0;
 
   Future<void> getCartItems() async {
     emit(CartLoadingState());
@@ -22,7 +24,7 @@ class CartCubit extends Cubit<CartState> {
 
     if (data != null) {
       cartData = data;
-      SharedPref.cashCartListIds(cartItems);
+      SharedPref.cacheCartListIds(cartItems.cast<int>());
       emit(CartSuccessState());
     } else {
       emit(CartErrorState());
@@ -33,8 +35,9 @@ class CartCubit extends Cubit<CartState> {
     final isRemoved = await CartRepo.removeFromCart(itemId);
 
     if (isRemoved) {
-      cartData?.cartItems?.removeWhere((item) => item.itemId == itemId);
-      SharedPref.cashCartListIds(cartItems);
+      cartData?.cartItems?.removeWhere((e) => e.itemId == itemId);
+      SharedPref.cacheCartListIds(cartItems.cast<int>());
+
       emit(CartSuccessState());
       await getCartItems();
     } else {
@@ -48,13 +51,10 @@ class CartCubit extends Cubit<CartState> {
   }) async {
     if (quantity < 1) return;
 
-    final itemIndex = cartItems.indexWhere((item) => item?.itemId == itemId);
+    final index = cartItems.indexWhere((e) => e?.itemId == itemId);
+    if (index == -1) return;
 
-    if (itemIndex == -1) return;
-
-    final currentItem = cartItems[itemIndex];
-    final stock = currentItem?.itemProductStock ?? 0;
-
+    final stock = cartItems[index]?.itemProductStock ?? 0;
     if (quantity > stock) return;
 
     emit(CartLoadingState());
@@ -66,7 +66,7 @@ class CartCubit extends Cubit<CartState> {
 
     if (data != null) {
       cartData = data;
-      SharedPref.cashCartListIds(cartItems);
+      SharedPref.cacheCartListIds(cartItems.cast<int>());
       emit(CartSuccessState());
     } else {
       emit(CartErrorState());
@@ -75,13 +75,11 @@ class CartCubit extends Cubit<CartState> {
 
   Future<bool> checkout() async {
     emit(CheckoutLoadingState());
-    checkoutData = null;
 
     final data = await CartRepo.checkout();
 
     if (data != null) {
       checkoutData = data;
-      SharedPref.cashCartListIds(cartItems);
       emit(CheckoutSuccessState());
       return true;
     } else {

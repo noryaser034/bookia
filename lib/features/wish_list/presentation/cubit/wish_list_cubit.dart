@@ -11,25 +11,35 @@ class WishListCubit extends Cubit<WishListState> {
 
   List<Product> products = [];
 
-  void getWishList() async {
+  Future<void> getWishList() async {
     emit(WishListLoadingState());
-    var data = await WishListRepo.getWishList();
+
+    final data = await WishListRepo.getWishList();
+
     if (data != null) {
       products = data.data?.product ?? [];
-      SharedPref.cashWishListIds(products);
+
+      SharedPref.cacheWishListIds(products.cast<int>());
+
       log(products.length.toString());
+
       emit(WishListSuccessState());
     } else {
       emit(WishListErrorState());
     }
   }
 
-  void removeFromWishList(int productId) async {
+  Future<void> removeFromWishList(int productId) async {
     emit(WishListLoadingState());
-    var data = await WishListRepo.removeFromWishList(productId);
+
+    final data = await WishListRepo.removeFromWishList(productId);
+
     if (data != null) {
       products = data.data?.product ?? [];
-      SharedPref.cashWishListIds(products);
+
+     
+      SharedPref.cacheWishListIds(products.cast<int>());
+
       emit(WishListSuccessState());
     } else {
       emit(WishListErrorState());

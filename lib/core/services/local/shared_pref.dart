@@ -1,12 +1,10 @@
 import 'dart:convert';
-
 import 'package:bookia/features/auth/data/models/auth_response/user.dart';
-import 'package:bookia/features/cart/data/models/cart_response/cart_item.dart';
-import 'package:bookia/features/home/home/data/models/product_model/product.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class SharedPref {
   static late SharedPreferences pref;
+
   static const String kToken = "token";
   static const String kUser = "user";
   static const String kWishListIds = "wishListIds";
@@ -17,84 +15,38 @@ abstract class SharedPref {
     pref = await SharedPreferences.getInstance();
   }
 
-  static Future<void> setToken(String value) async {
-    await pref.setString(kToken, value);
-  }
-
-  static String? getToken() {
-    return pref.getString(kToken);
-  }
+  static Future<void> setToken(String value) async => pref.setString(kToken, value);
+  static String? getToken() => pref.getString(kToken);
 
   static Future<void> setUserInfo(User? model) async {
-    if (model == null) {
-      return;
-    }
-    var objToJson = model.toJson();
-    var jsonToString = jsonEncode(objToJson);
-    await pref.setString(kUser, jsonToString);
+    if (model == null) return;
+    await pref.setString(kUser, jsonEncode(model.toJson()));
   }
 
   static User? getUserInfo() {
-    var cachedString = pref.getString(kUser);
-    if (cachedString == null) return null;
-    var stringToJson = jsonDecode(cachedString);
-    var jsonToObject = User.fromJson(stringToJson);
-    return jsonToObject;
+    final json = pref.getString(kUser);
+    if (json == null) return null;
+    return User.fromJson(jsonDecode(json));
   }
 
-  static void cashWishListIds(List<Product> items) {
-    var ids = items.map((item) => item.id.toString()).toList();
-    cacheData(kWishListIds, ids);
+  // Wishlist
+  static Future<void> cacheWishListIds(List<int> ids) async {
+    await pref.setStringList(kWishListIds, ids.map((e) => e.toString()).toList());
   }
-
   static List<int> getWishListIds() {
-    final ids = pref.getStringList(kWishListIds) ?? [];
-    return ids.map((id) => int.tryParse(id) ?? 0).toList();
+    return pref.getStringList(kWishListIds)?.map(int.parse).toList() ?? [];
   }
 
-  static void cashCartListIds(List<CartItem?> items) {
-    var ids = items
-        .map((item) => item?.itemProductId.toString() ?? '')
-        .toList();
-    cacheData(kCartListIds, ids);
+  // Cart
+  static Future<void> cacheCartListIds(List<int> ids) async {
+    await pref.setStringList(kCartListIds, ids.map((e) => e.toString()).toList());
   }
-
   static List<int> getCartListIds() {
-    final ids = pref.getStringList(kCartListIds) ?? [];
-    return ids.map((id) => int.tryParse(id) ?? 0).toList();
+    return pref.getStringList(kCartListIds)?.map(int.parse).toList() ?? [];
   }
 
-  static Future<void> cacheData(String key, dynamic value) async {
-    if (value is String) {
-      await pref.setString(key, value);
-    } else if (value is int) {
-      await pref.setInt(key, value);
-    } else if (value is double) {
-      await pref.setDouble(key, value);
-    } else if (value is bool) {
-      await pref.setBool(key, value);
-    } else if (value is List<String>) {
-      await pref.setStringList(key, value);
-    }
-  }
+  static Future<void> setLanguage(String value) async => pref.setString(kLanguage, value);
+  static String getLanguage() => pref.getString(kLanguage) ?? "en";
 
-  static Object getData(String key) {
-    return pref.getString(key) ?? "";
-  }
-
-  static Future<void> removeData(String key) async {
-    await pref.remove(key);
-  }
-
-  static Future<void> clear() async {
-    await pref.clear();
-  }
-
-  static Future<void> setLanguage(String value) async {
-    await pref.setString(kLanguage, value);
-  }
-
-  static String getLanguage() {
-    return pref.getString(kLanguage) ?? "en";
-  }
+  static Future<void> clear() async => pref.clear();
 }

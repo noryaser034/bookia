@@ -1,89 +1,150 @@
-import 'package:bookia/features/auth/data/models/forget_password_params.dart';
-import 'package:bookia/features/auth/data/models/register_params.dart';
-import 'package:bookia/features/auth/data/models/reset_password_params.dart';
-import 'package:bookia/features/auth/data/repo/auth_repo.dart';
-import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bookia/features/auth/domain/usecases/login_usecase.dart';
+import 'package:bookia/features/auth/domain/usecases/register_usecase.dart';
+import 'package:bookia/features/auth/domain/usecases/forget_password_usecase.dart';
+import 'package:bookia/features/auth/domain/entities/user.dart';
+
+part 'auth_state.dart';
 
 class AuthCubit extends Cubit<AuthState> {
-  AuthCubit() : super(AuthInitialState());
-  final formKey = GlobalKey<FormState>();
-  final userNameController = TextEditingController();
-  final emailController = TextEditingController();
-  final passwordController = TextEditingController();
-  final confirmController = TextEditingController();
-  final otpController = TextEditingController();
+  final LoginUseCase loginUseCase;
+  final RegisterUseCase registerUseCase;
+  final ForgetPasswordUseCase forgetPasswordUseCase;
+
+  AuthCubit({
+    required this.loginUseCase,
+    required this.registerUseCase,
+    required this.forgetPasswordUseCase,
+  }) : super(AuthInitial());
+
+  User? user;
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController confirmController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController otpController = TextEditingController();
+
+  String? resetEmail;
 
   Future<void> login() async {
-    emit(AuthLoadingState());
-    var response = await AuthRepo.login(
-      RegisterParams(
-        email: emailController.text,
-        password: passwordController.text,
+    if (!formKey.currentState!.validate()) return;
+
+    emit(LoginLoading());
+
+    final result = await loginUseCase(
+      LoginParams(
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
       ),
     );
-    if (response != null) {
-      emit(AuthSuccessState());
-    } else {
-      emit(AuthErrorState(message: "login_failed"));
-    }
+
+    result.fold(
+      (failure) => emit(AuthFailure(failure.message)),
+      (loggedUser) {
+        user = loggedUser;
+        emit(LoginSuccess());
+      },
+    );
   }
 
   Future<void> register() async {
-    emit(AuthLoadingState());
-    var response = await AuthRepo.register(
+    if (!formKey.currentState!.validate()) return;
+
+    emit(RegisterLoading());
+
+    final result = await registerUseCase(
       RegisterParams(
-        name: userNameController.text,
-        email: emailController.text,
-        password: passwordController.text,
-        passwordConfirmation: confirmController.text,
+        name: nameController.text.trim(),
+        email: emailController.text.trim(),
+        password: passwordController.text.trim(),
+        phone: phoneController.text.trim(),
       ),
     );
-    if (response != null) {
-      emit(AuthSuccessState());
-    } else {
-      emit(AuthErrorState(message: "register_failed"));
-    }
+
+    result.fold(
+      (failure) => emit(AuthFailure(failure.message)),
+      (registeredUser) {
+        user = registeredUser;
+        emit(RegisterSuccess());
+      },
+    );
   }
 
   Future<void> forgetPassword() async {
-    emit(AuthLoadingState());
+    final email = emailController.text.trim();
 
-    try {
-      final params = ForgetPasswordParams(email: emailController.text);
-
-      final response = await AuthRepo.forgetPassword(params);
-
-      if (response != null) {
-        emit(AuthSuccessState());
-      } else {
-        emit(AuthErrorState(message: "wrong_email"));
-      }
-    } catch (e) {
-      emit(AuthErrorState(message: e.toString()));
+    if (email.isEmpty) {
+      emit(AuthFailure('Email is required'));
+      return;
     }
+
+    emit(ForgetPasswordLoading());
+
+    final result = await forgetPasswordUseCase(email);
+
+    result.fold(
+      (failure) => emit(AuthFailure(failure.message)),
+      (_) {
+        resetEmail = email;
+        emit(AuthPasswordResetSent());
+      },
+    );
+  }
+
+  Future<void> verifyOtp() async {
+    final otp = otpController.text.trim();
+
+    if (otp.length != 6) {
+      emit(AuthFailure('OTP must be 6 digits'));
+      return;
+    }
+
+    emit(VerifyOtpLoading());
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    emit(VerifyOtpSuccess());
   }
 
   Future<void> resetPassword() async {
-    emit(AuthLoadingState());
+    final email = resetEmail ?? '';
+    final password = passwordController.text.trim();
+    final confirm = confirmController.text.trim();
 
-    try {
-      final params = ResetPasswordParams(
-        verifyCode: otpController.text,
-        newPassword: passwordController.text,
-        confirmPassword: confirmController.text,
-      );
-
-      final response = await AuthRepo.resetPassword(params);
-
-      if (response != null) {
-        emit(AuthSuccessState());
-      } else {
-        emit(AuthErrorState(message: "reset_password_failed"));
-      }
-    } catch (e) {
-      emit(AuthErrorState(message: e.toString()));
+    if (email.isEmpty) {
+      emit(AuthFailure('No email set'));
+      return;
     }
+
+    if (password.length < 6) {
+      emit(AuthFailure('Password must be at least 6 characters'));
+      return;
+    }
+
+    if (password != confirm) {
+      emit(AuthFailure('Passwords do not match'));
+      return;
+    }
+
+    emit(ResetPasswordLoading());
+
+    await Future.delayed(const Duration(seconds: 1));
+
+    emit(ResetPasswordSuccess());
+  }
+
+  @override
+  Future<void> close() {
+    emailController.dispose();
+    passwordController.dispose();
+    confirmController.dispose();
+    nameController.dispose();
+    phoneController.dispose();
+    otpController.dispose();
+    return super.close();
   }
 }

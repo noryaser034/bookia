@@ -9,7 +9,6 @@ import 'package:bookia/core/widgets/dialogs.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/core/widgets/password_text_form_field.dart';
 import 'package:bookia/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:bookia/core/functions/app_validators.dart';
 import 'package:bookia/features/auth/presentation/widgets/auth_footer.dart';
 import 'package:bookia/features/auth/presentation/widgets/social_auth_button.dart';
@@ -24,7 +23,11 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => AuthCubit(
+        loginUseCase: context.read(),
+        registerUseCase: context.read(),
+        forgetPasswordUseCase: context.read(),
+      ),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -36,12 +39,12 @@ class LoginScreen extends StatelessWidget {
         ),
         body: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is AuthSuccessState) {
+            if (state is LoginSuccess) {
               pushAndClearStack(Routes.mainApp, context);
-            } else if (state is AuthErrorState) {
+            } else if (state is AuthFailure) {
               pop(context);
               showMyDialog(context, context.translate(state.message));
-            } else if (state is AuthLoadingState) {
+            } else if (state is LoginLoading) {
               showLoadingDialog(context);
             }
           },
@@ -149,4 +152,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-

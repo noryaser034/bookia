@@ -10,41 +10,47 @@ class BookDetailsCubit extends Cubit<BookDetailsState> {
 
   List<CartItem?> cartItems = [];
 
-  void addToWishList(int productId) async {
+  Future<void> addToWishList(int productId) async {
     emit(AddToWishListLoadingState());
 
-    var data = await WishListRepo.addToWishList(productId);
-    var products = data?.data?.product ?? [];
+    final data = await WishListRepo.addToWishList(productId);
 
     if (data != null) {
-      SharedPref.cashWishListIds(products);
+      final products = data.data?.product ?? [];
+      SharedPref.cacheWishListIds(products.cast<int>());
+
       emit(AddToWishListSuccessState());
     } else {
-      emit(AddToWishListErrorState());
+      emit(AddToWishListErrorState(
+        'Failed to add to wishlist. Please try again.',
+      ));
     }
   }
 
   bool isInWishList(int productId) {
-    var wishListIds = SharedPref.getWishListIds();
-    return wishListIds.contains(productId);
+    final ids = SharedPref.getWishListIds();
+    return ids.contains(productId);
   }
 
-  void addToCart(int productId) async {
+  Future<void> addToCart(int productId) async {
     emit(AddToCartLoadingState());
 
     final data = await CartRepo.addToCart(productId);
 
     if (data != null) {
       cartItems = data.cartItems ?? [];
-      SharedPref.cashCartListIds(cartItems);
+      SharedPref.cacheCartListIds(cartItems.cast<int>());
+
       emit(AddToCartSuccessState());
     } else {
-      emit(AddToCartErrorState());
+      emit(AddToCartErrorState(
+        'Failed to add to cart. Please try again.',
+      ));
     }
   }
 
   bool isInCart(int productId) {
-    var cartListIds = SharedPref.getCartListIds();
-    return cartListIds.contains(productId);
+    final ids = SharedPref.getCartListIds();
+    return ids.contains(productId);
   }
 }

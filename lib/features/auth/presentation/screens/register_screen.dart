@@ -8,7 +8,6 @@ import 'package:bookia/core/widgets/dialogs.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/core/widgets/password_text_form_field.dart';
 import 'package:bookia/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:bookia/core/functions/app_validators.dart';
 import 'package:bookia/features/auth/presentation/widgets/auth_footer.dart';
 import 'package:flutter/material.dart';
@@ -22,29 +21,32 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(),
+      create: (context) => AuthCubit(
+        loginUseCase: context.read(),
+        registerUseCase: context.read(),
+        forgetPasswordUseCase: context.read(),
+      ),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
-            onPressed: () {
-              pop(context);
-            },
+            onPressed: () => pop(context),
             icon: SvgPicture.asset(AppImages.backIconsvg),
           ),
         ),
         body: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is AuthSuccessState) {
+            if (state is RegisterSuccess) {
               pushAndClearStack(Routes.mainApp, context);
-            } else if (state is AuthErrorState) {
+            } else if (state is AuthFailure) {
               pop(context);
               showMyDialog(context, context.translate(state.message));
-            } else if (state is AuthLoadingState) {
+            } else if (state is RegisterLoading) {
               showLoadingDialog(context);
             }
           },
           builder: (context, state) {
             var cubit = context.read<AuthCubit>();
+
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(22),
@@ -66,7 +68,7 @@ class RegisterScreen extends StatelessWidget {
                           invalidMessage:
                               context.translate("validation_name_invalid"),
                         ),
-                        controller: cubit.userNameController,
+                        controller: cubit.nameController,
                       ),
                       const Gap(11),
                       CustomTextFormField(
@@ -95,10 +97,8 @@ class RegisterScreen extends StatelessWidget {
                         hint: context.translate("confirm_password"),
                         validator: AppValidators.confirmPassword(
                           passwordProvider: () => cubit.passwordController.text,
-                          emptyMessage: context
-                              .translate("validation_confirm_password_empty"),
-                          invalidMessage: context.translate(
-                              "validation_confirm_password_invalid"),
+                          emptyMessage: context.translate("validation_confirm_password_empty"),
+                          invalidMessage: context.translate("validation_confirm_password_invalid"),
                         ),
                         passwordController: cubit.confirmController,
                       ),

@@ -8,7 +8,6 @@ import 'package:bookia/core/widgets/dialogs.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/core/widgets/password_text_form_field.dart';
 import 'package:bookia/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:bookia/core/functions/app_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,11 +22,12 @@ class CreateNewPasswordScreen extends StatelessWidget {
     final cubit = context.read<AuthCubit>();
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoadingState) {
+        if (state is AuthLoading) {
           showLoadingDialog(context);
-        } else if (state is AuthSuccessState) {
-          pushReplacment(Routes.passwordChanged, context, extra: cubit);
-        } else if (state is AuthErrorState) {
+        // ignore: dead_code
+        } else if (state is AuthSuccess) {
+          pushTo(Routes.passwordChanged, context, extra: cubit);
+        } else if (state is AuthFailure) {
           showMyDialog(context, context.translate(state.message));
         }
       },
@@ -49,8 +49,10 @@ class CreateNewPasswordScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(context.translate("create_new_password"),
-                      style: TextStyles.w400s30),
+                  Text(
+                    context.translate("create_new_password"),
+                    style: TextStyles.w400s30,
+                  ),
                   const Gap(10),
                   Text(
                     context.translate("create_new_password_subtitle"),
@@ -62,9 +64,12 @@ class CreateNewPasswordScreen extends StatelessWidget {
                   PasswordTextFormField(
                     hint: context.translate("new_password"),
                     validator: AppValidators.password(
-                      emptyMessage: context.translate("validation_password_empty"),
-                      invalidMessage:
-                          context.translate("validation_password_invalid"),
+                      emptyMessage: context.translate(
+                        "validation_password_empty",
+                      ),
+                      invalidMessage: context.translate(
+                        "validation_password_invalid",
+                      ),
                     ),
                     passwordController: cubit.passwordController,
                   ),
@@ -73,10 +78,12 @@ class CreateNewPasswordScreen extends StatelessWidget {
                     hint: context.translate("confirm_password"),
                     validator: AppValidators.confirmPassword(
                       passwordProvider: () => cubit.passwordController.text,
-                      emptyMessage:
-                          context.translate("validation_confirm_password_empty"),
-                      invalidMessage: context
-                          .translate("validation_confirm_password_invalid"),
+                      emptyMessage: context.translate(
+                        "validation_confirm_password_empty",
+                      ),
+                      invalidMessage: context.translate(
+                        "validation_confirm_password_invalid",
+                      ),
                     ),
                     passwordController: cubit.confirmController,
                   ),
@@ -97,4 +104,10 @@ class CreateNewPasswordScreen extends StatelessWidget {
       },
     );
   }
+}
+
+mixin AuthLoading {
+}
+
+mixin AuthSuccess {
 }
