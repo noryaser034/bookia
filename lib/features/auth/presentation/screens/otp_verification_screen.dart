@@ -33,8 +33,10 @@ class OtpVerificationScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(context.translate("otp_verification"),
-                style: TextStyles.w400s30),
+            Text(
+              context.translate("otp_verification"),
+              style: TextStyles.w400s30,
+            ),
             const Gap(10),
             Text(
               context.translate("otp_verification_subtitle"),

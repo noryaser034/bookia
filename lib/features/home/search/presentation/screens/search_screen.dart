@@ -108,13 +108,14 @@ class _SearchScreenState extends State<SearchScreen> {
                       if (state is SearchSuccess) {
                         if (state.products.isEmpty) {
                           return Center(
-                              child: Text(context.translate("no_products_found")));
+                            child: Text(context.translate("no_products_found")),
+                          );
                         }
 
                         return GridView.builder(
                           itemCount: state.products.length,
                           gridDelegate:
-                               const SliverGridDelegateWithFixedCrossAxisCount(
+                              const SliverGridDelegateWithFixedCrossAxisCount(
                                 crossAxisCount: 2,
                                 crossAxisSpacing: 11,
                                 mainAxisSpacing: 11,

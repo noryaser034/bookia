@@ -52,17 +52,21 @@ class ResetPasswordScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(context.translate("new_password"),
-                      style: TextStyles.w400s30),
+                  Text(
+                    context.translate("new_password"),
+                    style: TextStyles.w400s30,
+                  ),
                   const Gap(73),
                   PasswordTextFormField(
                     hint: context.translate("current_password"),
                     passwordController: cubit.currentPasswordController,
                     validator: AppValidators.password(
-                      emptyMessage:
-                          context.translate("validation_current_password_empty"),
-                      invalidMessage:
-                          context.translate("validation_password_invalid"),
+                      emptyMessage: context.translate(
+                        "validation_current_password_empty",
+                      ),
+                      invalidMessage: context.translate(
+                        "validation_password_invalid",
+                      ),
                     ),
                   ),
                   const Gap(26),
@@ -70,10 +74,12 @@ class ResetPasswordScreen extends StatelessWidget {
                     hint: context.translate("new_password"),
                     passwordController: cubit.newPasswordController,
                     validator: AppValidators.password(
-                      emptyMessage:
-                          context.translate("validation_password_empty"),
-                      invalidMessage:
-                          context.translate("validation_password_invalid"),
+                      emptyMessage: context.translate(
+                        "validation_password_empty",
+                      ),
+                      invalidMessage: context.translate(
+                        "validation_password_invalid",
+                      ),
                     ),
                   ),
                   const Gap(26),
@@ -82,10 +88,12 @@ class ResetPasswordScreen extends StatelessWidget {
                     passwordController: cubit.confirmPasswordController,
                     validator: AppValidators.confirmPassword(
                       passwordProvider: () => cubit.newPasswordController.text,
-                      emptyMessage: context
-                          .translate("validation_confirm_password_empty"),
+                      emptyMessage: context.translate(
+                        "validation_confirm_password_empty",
+                      ),
                       invalidMessage: context.translate(
-                          "validation_confirm_password_invalid"),
+                        "validation_confirm_password_invalid",
+                      ),
                     ),
                   ),
                 ],

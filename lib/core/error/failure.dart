@@ -1,29 +1,28 @@
-import 'package:equatable/equatable.dart';
-
-abstract class Failure extends Equatable {
+/// Canonical failure classes used across domain and data layers.
+/// Import this file from `package:bookia/core/error/failure.dart`.
+class Failure {
   final String message;
-  const Failure(this.message);
+  final int? statusCode;
 
-  @override
-  List<Object> get props => [message];
+  Failure({required this.message, this.statusCode});
 }
 
-class ServerFailure extends Failure {
-  const ServerFailure(super.message);
+class ApiFailure extends Failure {
+  ApiFailure({required super.message});
+}
+
+class NetworkFailure extends Failure {
+  NetworkFailure({required super.message});
+}
+
+class UnknownFailure extends Failure {
+  UnknownFailure({required super.message});
 }
 
 class CacheFailure extends Failure {
-  const CacheFailure(super.message);
+  CacheFailure({required super.message});
 }
 
-class ConnectionFailure extends Failure {
-  const ConnectionFailure(super.message);
-}
-
-class AuthFailure extends Failure {
-  const AuthFailure(super.message);
-}
-
-class ValidationFailure extends Failure {
-  const ValidationFailure(super.message);
+class ParseFailure extends Failure {
+  ParseFailure({required super.message});
 }

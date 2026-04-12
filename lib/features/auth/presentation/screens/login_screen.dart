@@ -9,7 +9,9 @@ import 'package:bookia/core/widgets/dialogs.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/core/widgets/password_text_form_field.dart';
 import 'package:bookia/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:bookia/core/functions/app_validators.dart';
+import 'package:bookia/core/di/injection_container.dart';
 import 'package:bookia/features/auth/presentation/widgets/auth_footer.dart';
 import 'package:bookia/features/auth/presentation/widgets/social_auth_button.dart';
 import 'package:flutter/material.dart';
@@ -23,11 +25,7 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(
-        loginUseCase: context.read(),
-        registerUseCase: context.read(),
-        forgetPasswordUseCase: context.read(),
-      ),
+      create: (context) => sl<AuthCubit>(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -39,12 +37,12 @@ class LoginScreen extends StatelessWidget {
         ),
         body: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is LoginSuccess) {
+            if (state is AuthSuccessState) {
               pushAndClearStack(Routes.mainApp, context);
-            } else if (state is AuthFailure) {
+            } else if (state is AuthErrorState) {
               pop(context);
               showMyDialog(context, context.translate(state.message));
-            } else if (state is LoginLoading) {
+            } else if (state is AuthLoadingState) {
               showLoadingDialog(context);
             }
           },
@@ -67,9 +65,12 @@ class LoginScreen extends StatelessWidget {
                         hint: context.translate("email_hint"),
                         validator: (value) => AppValidators.email(
                           value,
-                          emptyMessage: context.translate("validation_email_empty"),
-                          invalidMessage:
-                              context.translate("validation_email_invalid"),
+                          emptyMessage: context.translate(
+                            "validation_email_empty",
+                          ),
+                          invalidMessage: context.translate(
+                            "validation_email_invalid",
+                          ),
                         ),
                         controller: cubit.emailController,
                       ),
@@ -77,10 +78,12 @@ class LoginScreen extends StatelessWidget {
                       PasswordTextFormField(
                         hint: context.translate("password_hint"),
                         validator: AppValidators.password(
-                          emptyMessage:
-                              context.translate("validation_password_empty"),
-                          invalidMessage:
-                              context.translate("validation_password_invalid"),
+                          emptyMessage: context.translate(
+                            "validation_password_empty",
+                          ),
+                          invalidMessage: context.translate(
+                            "validation_password_invalid",
+                          ),
                         ),
                         passwordController: cubit.passwordController,
                       ),

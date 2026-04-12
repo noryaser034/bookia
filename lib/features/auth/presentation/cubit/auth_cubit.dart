@@ -1,150 +1,100 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:bookia/features/auth/data/models/forget_password_params.dart';
+import 'package:bookia/features/auth/data/models/register_params.dart';
+import 'package:bookia/features/auth/data/models/reset_password_params.dart';
+import 'package:bookia/features/auth/domain/usecases/forget_password_usecase.dart';
 import 'package:bookia/features/auth/domain/usecases/login_usecase.dart';
 import 'package:bookia/features/auth/domain/usecases/register_usecase.dart';
-import 'package:bookia/features/auth/domain/usecases/forget_password_usecase.dart';
-import 'package:bookia/features/auth/domain/entities/user.dart';
-
-part 'auth_state.dart';
+import 'package:bookia/features/auth/domain/usecases/reset_password_usecase.dart';
+import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class AuthCubit extends Cubit<AuthState> {
   final LoginUseCase loginUseCase;
   final RegisterUseCase registerUseCase;
   final ForgetPasswordUseCase forgetPasswordUseCase;
+  final ResetPasswordUseCase resetPasswordUseCase;
 
   AuthCubit({
     required this.loginUseCase,
     required this.registerUseCase,
     required this.forgetPasswordUseCase,
-  }) : super(AuthInitial());
-
-  User? user;
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController confirmController = TextEditingController();
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
-  final TextEditingController otpController = TextEditingController();
-
-  String? resetEmail;
+    required this.resetPasswordUseCase,
+  }) : super(AuthInitialState());
+  final formKey = GlobalKey<FormState>();
+  final userNameController = TextEditingController();
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+  final confirmController = TextEditingController();
+  final otpController = TextEditingController();
 
   Future<void> login() async {
-    if (!formKey.currentState!.validate()) return;
-
-    emit(LoginLoading());
-
-    final result = await loginUseCase(
-      LoginParams(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
+    emit(AuthLoadingState());
+    var response = await loginUseCase.call(
+      RegisterParams(
+        email: emailController.text,
+        password: passwordController.text,
       ),
     );
-
-    result.fold(
-      (failure) => emit(AuthFailure(failure.message)),
-      (loggedUser) {
-        user = loggedUser;
-        emit(LoginSuccess());
+    response.fold(
+      (l) {
+        emit(AuthErrorState(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccessState());
       },
     );
   }
 
   Future<void> register() async {
-    if (!formKey.currentState!.validate()) return;
-
-    emit(RegisterLoading());
-
-    final result = await registerUseCase(
+    emit(AuthLoadingState());
+    var response = await registerUseCase.call(
       RegisterParams(
-        name: nameController.text.trim(),
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-        phone: phoneController.text.trim(),
+        name: userNameController.text,
+        email: emailController.text,
+        password: passwordController.text,
+        passwordConfirmation: confirmController.text,
       ),
     );
-
-    result.fold(
-      (failure) => emit(AuthFailure(failure.message)),
-      (registeredUser) {
-        user = registeredUser;
-        emit(RegisterSuccess());
+    response.fold(
+      (l) {
+        emit(AuthErrorState(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccessState());
       },
     );
   }
 
   Future<void> forgetPassword() async {
-    final email = emailController.text.trim();
+    emit(AuthLoadingState());
 
-    if (email.isEmpty) {
-      emit(AuthFailure('Email is required'));
-      return;
-    }
+    final params = ForgetPasswordParams(email: emailController.text);
 
-    emit(ForgetPasswordLoading());
-
-    final result = await forgetPasswordUseCase(email);
-
-    result.fold(
-      (failure) => emit(AuthFailure(failure.message)),
-      (_) {
-        resetEmail = email;
-        emit(AuthPasswordResetSent());
+    final response = await forgetPasswordUseCase.call(params);
+    response.fold(
+      (l) {
+        emit(AuthErrorState(message: l.message));
+      },
+      (r) {
+        emit(AuthSuccessState());
       },
     );
   }
 
-  Future<void> verifyOtp() async {
-    final otp = otpController.text.trim();
-
-    if (otp.length != 6) {
-      emit(AuthFailure('OTP must be 6 digits'));
-      return;
-    }
-
-    emit(VerifyOtpLoading());
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    emit(VerifyOtpSuccess());
-  }
-
   Future<void> resetPassword() async {
-    final email = resetEmail ?? '';
-    final password = passwordController.text.trim();
-    final confirm = confirmController.text.trim();
+    emit(AuthLoadingState());
 
-    if (email.isEmpty) {
-      emit(AuthFailure('No email set'));
-      return;
-    }
+    final params = ResetPasswordParams(
+      verifyCode: otpController.text,
+      newPassword: passwordController.text,
+      confirmPassword: confirmController.text,
+    );
 
-    if (password.length < 6) {
-      emit(AuthFailure('Password must be at least 6 characters'));
-      return;
-    }
-
-    if (password != confirm) {
-      emit(AuthFailure('Passwords do not match'));
-      return;
-    }
-
-    emit(ResetPasswordLoading());
-
-    await Future.delayed(const Duration(seconds: 1));
-
-    emit(ResetPasswordSuccess());
-  }
-
-  @override
-  Future<void> close() {
-    emailController.dispose();
-    passwordController.dispose();
-    confirmController.dispose();
-    nameController.dispose();
-    phoneController.dispose();
-    otpController.dispose();
-    return super.close();
+    final response = await resetPasswordUseCase.call(params);
+    response.fold(
+      (l) => emit(AuthErrorState(message: l.message)),
+      (r) => emit(AuthSuccessState()),
+    );
   }
 }

@@ -30,14 +30,22 @@ abstract class AppValidators {
       _egyNumberRegex.hasMatch(number);
 
   // ------------------- Validators -------------------
-  static String? email(String? input, {required String emptyMessage, required String invalidMessage}) {
+  static String? email(
+    String? input, {
+    required String emptyMessage,
+    required String invalidMessage,
+  }) {
     final value = input?.trim() ?? '';
     if (value.isEmpty) return emptyMessage;
     if (!isEmailValid(value)) return invalidMessage;
     return null;
   }
 
-  static String? name(String? input, {required String emptyMessage, required String invalidMessage}) {
+  static String? name(
+    String? input, {
+    required String emptyMessage,
+    required String invalidMessage,
+  }) {
     final value = input?.trim() ?? '';
     if (value.isEmpty) return emptyMessage;
     if (value.length < 3 || !isNameValid(value)) {
@@ -75,14 +83,22 @@ abstract class AppValidators {
     };
   }
 
-  static String? address(String? input, {required String emptyMessage, required String invalidMessage}) {
+  static String? address(
+    String? input, {
+    required String emptyMessage,
+    required String invalidMessage,
+  }) {
     final value = input?.trim() ?? '';
     if (value.isEmpty) return emptyMessage;
     if (value.length < 5) return invalidMessage;
     return null;
   }
 
-  static String? phone(String? input, {required String emptyMessage, required String invalidMessage}) {
+  static String? phone(
+    String? input, {
+    required String emptyMessage,
+    required String invalidMessage,
+  }) {
     final value = input?.trim() ?? '';
     if (value.isEmpty) return emptyMessage;
     if (!_phoneRegex.hasMatch(value)) {

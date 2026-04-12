@@ -93,7 +93,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
           }
 
           if (state is OrderDetailsError && order == null) {
-            return Center(child: Text(context.translate("failed_to_load_data")));
+            return Center(
+              child: Text(context.translate("failed_to_load_data")),
+            );
           }
 
           if (order == null) {
@@ -123,7 +125,9 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.only(bottom: 20, left: 20, right: 20),
         child: MainButton(
-            text: context.translate("my_orders"), onPressed: () => pop(context)),
+          text: context.translate("my_orders"),
+          onPressed: () => pop(context),
+        ),
       ),
     );
   }

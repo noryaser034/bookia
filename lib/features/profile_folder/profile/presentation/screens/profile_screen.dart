@@ -6,7 +6,9 @@ import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/core/styles/app_colors.dart';
 import 'package:bookia/core/styles/text_styles.dart';
 import 'package:bookia/core/widgets/dialogs.dart';
-import 'package:bookia/features/auth/data/repo/auth_repo.dart';
+import 'package:bookia/core/di/injection_container.dart';
+import 'package:bookia/core/usecase/usecase.dart';
+import 'package:bookia/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:bookia/features/profile_folder/profile/presentation/widgets/profile_tile.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +36,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             onPressed: () async {
               showLoadingDialog(context);
 
-              final success = await AuthRepo.logout();
+              final response = await sl<LogoutUseCase>().call(NoParams());
+              final success = response.isRight();
 
               if (!context.mounted) return;
 
@@ -61,7 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   radius: 40,
                   backgroundImage:
                       (profileData?.image != null &&
-                           profileData!.image!.isNotEmpty)
+                          profileData!.image!.isNotEmpty)
                       ? CachedNetworkImageProvider(profileData.image!)
                       : null,
                 ),

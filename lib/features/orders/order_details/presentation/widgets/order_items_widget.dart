@@ -36,9 +36,12 @@ class OrderItemsWidget extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      context.translate("qty", replacements: {
-                        "qty": (item.orderProductQuantity ?? 0).toString()
-                      }),
+                      context.translate(
+                        "qty",
+                        replacements: {
+                          "qty": (item.orderProductQuantity ?? 0).toString(),
+                        },
+                      ),
                       style: TextStyles.w400s12.copyWith(
                         color: AppColors.grayColor,
                       ),

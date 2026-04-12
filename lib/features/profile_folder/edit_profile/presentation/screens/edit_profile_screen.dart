@@ -21,7 +21,10 @@ class EditProfileScreen extends StatelessWidget {
     var cubit = context.read<EditProfileCubit>();
     return Scaffold(
       appBar: AppBar(
-        title: Text(context.translate("edit_profile"), style: TextStyles.w400s24),
+        title: Text(
+          context.translate("edit_profile"),
+          style: TextStyles.w400s24,
+        ),
         centerTitle: true,
         automaticallyImplyLeading: false,
         leading: Padding(
@@ -63,9 +66,12 @@ class EditProfileScreen extends StatelessWidget {
                       controller: cubit.nameController,
                       validator: (value) => AppValidators.name(
                         value,
-                        emptyMessage: context.translate("validation_name_empty"),
-                        invalidMessage:
-                            context.translate("validation_name_invalid"),
+                        emptyMessage: context.translate(
+                          "validation_name_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_name_invalid",
+                        ),
                       ),
                     ),
                     const Gap(20),
@@ -74,9 +80,12 @@ class EditProfileScreen extends StatelessWidget {
                       controller: cubit.phoneController,
                       validator: (value) => AppValidators.phone(
                         value,
-                        emptyMessage: context.translate("validation_phone_empty"),
-                        invalidMessage:
-                            context.translate("validation_phone_invalid"),
+                        emptyMessage: context.translate(
+                          "validation_phone_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_phone_invalid",
+                        ),
                       ),
                     ),
                     const Gap(20),
@@ -85,10 +94,12 @@ class EditProfileScreen extends StatelessWidget {
                       controller: cubit.addressController,
                       validator: (value) => AppValidators.address(
                         value,
-                        emptyMessage:
-                            context.translate("validation_address_empty"),
-                        invalidMessage:
-                            context.translate("validation_address_short"),
+                        emptyMessage: context.translate(
+                          "validation_address_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_address_short",
+                        ),
                       ),
                     ),
                   ],

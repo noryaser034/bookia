@@ -23,8 +23,10 @@ class PasswordChangedScreen extends StatelessWidget {
             children: [
               SvgPicture.asset(AppImages.successSvg),
               const Gap(35),
-              Text(context.translate("password_changed"),
-                  style: TextStyles.w400s26),
+              Text(
+                context.translate("password_changed"),
+                style: TextStyles.w400s26,
+              ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 53),
                 child: Text(

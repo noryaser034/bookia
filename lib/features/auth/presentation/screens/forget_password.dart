@@ -8,7 +8,9 @@ import 'package:bookia/core/widgets/custom_text_form_field.dart';
 import 'package:bookia/core/widgets/dialogs.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:bookia/core/functions/app_validators.dart';
+import 'package:bookia/core/di/injection_container.dart';
 import 'package:bookia/features/auth/presentation/widgets/auth_footer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,11 +23,7 @@ class ForgetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => AuthCubit(
-        loginUseCase: context.read(),
-        registerUseCase: context.read(),
-        forgetPasswordUseCase: context.read(),
-      ),
+      create: (context) => sl<AuthCubit>(),
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -37,23 +35,22 @@ class ForgetPasswordScreen extends StatelessWidget {
         ),
         body: BlocConsumer<AuthCubit, AuthState>(
           listener: (context, state) {
-            if (state is ForgetPasswordLoading) {
+            if (state is AuthLoadingState) {
               showLoadingDialog(context);
-            } else if (state is AuthPasswordResetSent) {
+            } else if (state is AuthSuccessState) {
               pop(context);
               pushTo(
                 Routes.otpScreen,
                 context,
                 extra: context.read<AuthCubit>(),
               );
-            } else if (state is AuthFailure) {
+            } else if (state is AuthErrorState) {
               pop(context);
               showMyDialog(context, context.translate(state.message));
             }
           },
           builder: (context, state) {
             var cubit = context.read<AuthCubit>();
-
             return Padding(
               padding: const EdgeInsets.all(22),
               child: Form(
@@ -76,14 +73,16 @@ class ForgetPasswordScreen extends StatelessWidget {
                     const Gap(30),
                     CustomTextFormField(
                       hint: context.translate("email_hint"),
-                      controller: cubit.emailController,
                       validator: (value) => AppValidators.email(
                         value,
-                        emptyMessage:
-                            context.translate("validation_email_empty"),
-                        invalidMessage:
-                            context.translate("validation_email_invalid"),
+                        emptyMessage: context.translate(
+                          "validation_email_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_email_invalid",
+                        ),
                       ),
+                      controller: cubit.emailController,
                     ),
                     const Gap(40),
                     MainButton(

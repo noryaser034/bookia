@@ -1,11 +1,14 @@
 import 'package:bookia/features/profile_folder/reset_password/data/models/reset_password_params.dart';
-import 'package:bookia/features/profile_folder/reset_password/data/repo/reset_password_repo.dart';
+import 'package:bookia/features/profile_folder/reset_password/domain/usecases/update_password_usecase.dart';
 import 'package:bookia/features/profile_folder/reset_password/presentation/cubit/reset_password_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ResetPasswordCubit extends Cubit<ResetPasswordState> {
-  ResetPasswordCubit() : super(ResetPasswordInitial());
+  final UpdatePasswordUseCase updatePasswordUseCase;
+
+  ResetPasswordCubit({required this.updatePasswordUseCase})
+    : super(ResetPasswordInitial());
 
   final formKey = GlobalKey<FormState>();
   final currentPasswordController = TextEditingController();
@@ -21,18 +24,25 @@ class ResetPasswordCubit extends Cubit<ResetPasswordState> {
     params.newPassword = newPasswordController.text;
     params.newPasswordConfirmation = confirmPasswordController.text;
 
-    var response = await ResetPasswordRepo.updatePassword(params);
+    var response = await updatePasswordUseCase.call(params);
 
-    if (response != null && response.message != null) {
-      emit(ResetPasswordSuccess(message: response.message!));
-    } else {
-      emit(
+    response.fold(
+      (l) => emit(
         ResetPasswordError(
-          message:
-              response?.message ??
-              "Failed to update password. Please try again.",
+          message: "Failed to update password. Please try again.",
         ),
-      );
-    }
+      ),
+      (data) {
+        if (data.message != null) {
+          emit(ResetPasswordSuccess(message: data.message!));
+        } else {
+          emit(
+            ResetPasswordError(
+              message: "Failed to update password. Please try again.",
+            ),
+          );
+        }
+      },
+    );
   }
 }

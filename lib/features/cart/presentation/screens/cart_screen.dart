@@ -7,6 +7,7 @@ import 'package:bookia/features/cart/presentation/cubit/cart_cubit.dart';
 import 'package:bookia/features/cart/presentation/cubit/cart_state.dart';
 import 'package:bookia/features/cart/presentation/widgets/cart_screen_btttom_nav_bar.dart';
 import 'package:bookia/features/cart/presentation/widgets/cart_tile.dart';
+import 'package:bookia/core/di/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,7 +17,7 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => CartCubit()..getCartItems(),
+      create: (context) => sl<CartCubit>()..getCartItems(),
       child: BlocBuilder<CartCubit, CartState>(
         builder: (context, state) {
           final cubit = context.read<CartCubit>();
@@ -66,7 +67,9 @@ class CartScreen extends StatelessWidget {
                         if (isSuccess) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                              content: Text(context.translate("checkout_success")),
+                              content: Text(
+                                context.translate("checkout_success"),
+                              ),
                             ),
                           );
 
@@ -78,8 +81,10 @@ class CartScreen extends StatelessWidget {
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
-                                content:
-                                    Text(context.translate("checkout_failed"))),
+                              content: Text(
+                                context.translate("checkout_failed"),
+                              ),
+                            ),
                           );
                         }
                       },

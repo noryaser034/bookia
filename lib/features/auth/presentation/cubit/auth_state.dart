@@ -1,30 +1,13 @@
-part of 'auth_cubit.dart';
+class AuthState {}
 
-abstract class AuthState {}
+class AuthInitialState extends AuthState {}
 
-class AuthInitial extends AuthState {}
+class AuthLoadingState extends AuthState {}
 
-class LoginLoading extends AuthState {}
+class AuthSuccessState extends AuthState {}
 
-class RegisterLoading extends AuthState {}
-
-class ForgetPasswordLoading extends AuthState {}
-
-class VerifyOtpLoading extends AuthState {}
-
-class ResetPasswordLoading extends AuthState {}
-
-class LoginSuccess extends AuthState {}
-
-class RegisterSuccess extends AuthState {}
-
-class VerifyOtpSuccess extends AuthState {}
-
-class ResetPasswordSuccess extends AuthState {}
-
-class AuthPasswordResetSent extends AuthState {}
-
-class AuthFailure extends AuthState {
+class AuthErrorState extends AuthState {
   final String message;
-  AuthFailure(this.message);
+
+  AuthErrorState({required this.message});
 }

@@ -28,7 +28,10 @@ class OrderItem extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    context.translate("order_id", replacements: {"id": orderNumber}),
+                    context.translate(
+                      "order_id",
+                      replacements: {"id": orderNumber},
+                    ),
                     style: TextStyles.w400s16,
                   ),
                 ),

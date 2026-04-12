@@ -8,6 +8,7 @@ import 'package:bookia/core/widgets/dialogs.dart';
 import 'package:bookia/core/widgets/main_button.dart';
 import 'package:bookia/core/widgets/password_text_form_field.dart';
 import 'package:bookia/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:bookia/features/auth/presentation/cubit/auth_state.dart';
 import 'package:bookia/core/functions/app_validators.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,12 +23,11 @@ class CreateNewPasswordScreen extends StatelessWidget {
     final cubit = context.read<AuthCubit>();
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
-        if (state is AuthLoading) {
+        if (state is AuthLoadingState) {
           showLoadingDialog(context);
-        // ignore: dead_code
-        } else if (state is AuthSuccess) {
-          pushTo(Routes.passwordChanged, context, extra: cubit);
-        } else if (state is AuthFailure) {
+        } else if (state is AuthSuccessState) {
+          pushReplacment(Routes.passwordChanged, context, extra: cubit);
+        } else if (state is AuthErrorState) {
           showMyDialog(context, context.translate(state.message));
         }
       },
@@ -104,10 +104,4 @@ class CreateNewPasswordScreen extends StatelessWidget {
       },
     );
   }
-}
-
-mixin AuthLoading {
-}
-
-mixin AuthSuccess {
 }

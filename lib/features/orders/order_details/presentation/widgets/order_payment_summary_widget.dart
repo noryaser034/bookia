@@ -18,12 +18,14 @@ class OrderPaymentSummaryWidget extends StatelessWidget {
         const Gap(16),
         _summaryRow(
           title: context.translate("sub_total"),
-          value: "${order.subTotal ?? "0"} ${context.translate("price_currency")}",
+          value:
+              "${order.subTotal ?? "0"} ${context.translate("price_currency")}",
         ),
         const Gap(10),
         _summaryRow(
           title: context.translate("discount"),
-          value: "${order.discount ?? 0} ${context.translate("price_currency")}",
+          value:
+              "${order.discount ?? 0} ${context.translate("price_currency")}",
         ),
         const Gap(10),
         _summaryRow(

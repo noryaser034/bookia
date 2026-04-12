@@ -36,7 +36,9 @@ class _HomeSliderState extends State<HomeSlider> {
           if (sliders.isEmpty) {
             return SizedBox(
               height: 180,
-              child: Center(child: Text(context.translate("no_products_found"))),
+              child: Center(
+                child: Text(context.translate("no_products_found")),
+              ),
             );
           }
 

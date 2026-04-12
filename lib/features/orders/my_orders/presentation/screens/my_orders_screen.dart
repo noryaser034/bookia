@@ -19,11 +19,34 @@ class MyOrdersScreen extends StatefulWidget {
 }
 
 class _MyOrdersScreenState extends State<MyOrdersScreen> {
+  bool _isLoadingDialogShown = false;
+
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
       context.read<MyOrderCubit>().getOrders();
+    });
+  }
+
+  void _showLoader() {
+    if (_isLoadingDialogShown) return;
+
+    _isLoadingDialogShown = true;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      showLoadingDialog(context);
+    });
+  }
+
+  void _hideLoader() {
+    if (!_isLoadingDialogShown) return;
+
+    _isLoadingDialogShown = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      Navigator.of(context, rootNavigator: true).pop();
     });
   }
 
@@ -42,11 +65,11 @@ class _MyOrdersScreenState extends State<MyOrdersScreen> {
       body: BlocConsumer<MyOrderCubit, MyOrdersState>(
         listener: (context, state) {
           if (state is MyOrdersLoading) {
-            showLoadingDialog(context);
+            _showLoader();
           } else if (state is MyOrdersLoaded) {
-            pop(context);
+            _hideLoader();
           } else if (state is MyOrdersError) {
-            pop(context);
+            _hideLoader();
             showMyDialog(context, context.translate(state.message));
           }
         },

@@ -22,8 +22,10 @@ class CongratsScreen extends StatelessWidget {
           children: [
             SvgPicture.asset(AppImages.successSvg),
             const Gap(50),
-            Text(context.translate("congrats").toUpperCase(),
-                style: TextStyles.w400s36),
+            Text(
+              context.translate("congrats").toUpperCase(),
+              style: TextStyles.w400s36,
+            ),
             const Gap(22),
             Text(
               context.translate("order_success_subtitle"),

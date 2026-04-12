@@ -135,7 +135,8 @@ class AppLocalizations {
       'no_name': 'No Name',
       'order_items': 'Order Items',
       'place_order_subtitle': 'Please enter your order details below.',
-      'order_success_subtitle': 'Your order will be delivered soon.\nThank you for choosing our app!',
+      'order_success_subtitle':
+          'Your order will be delivered soon.\nThank you for choosing our app!',
       'order_no': '#{id}',
       'unknown': 'Unknown',
       'status_label': 'Status',
@@ -265,7 +266,8 @@ class AppLocalizations {
       'no_name': 'بدون اسم',
       'order_items': 'الأصناف المطلوبة',
       'place_order_subtitle': 'يرجى إدخال تفاصيل طلبك أدناه.',
-      'order_success_subtitle': 'سيتم توصيل طلبك قريباً.\nشكراً لاختيارك تطبيقنا!',
+      'order_success_subtitle':
+          'سيتم توصيل طلبك قريباً.\nشكراً لاختيارك تطبيقنا!',
       'order_no': '#{id}',
       'unknown': 'غير معروف',
       'status_label': 'الحالة',
@@ -301,7 +303,9 @@ class AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
 
 extension LocalizationExtension on BuildContext {
   String translate(String key, {Map<String, String>? replacements}) {
-    return AppLocalizations.of(this)?.translate(key, replacements: replacements) ??
+    return AppLocalizations.of(
+          this,
+        )?.translate(key, replacements: replacements) ??
         key;
   }
 }

@@ -1,56 +1,52 @@
 import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/features/book_details/presentation/cubit/book_details_state.dart';
 import 'package:bookia/features/cart/data/models/cart_response/cart_item.dart';
-import 'package:bookia/features/cart/data/repo/cart_repo.dart';
-import 'package:bookia/features/wish_list/data/repo/wish_list_repo.dart';
+import 'package:bookia/features/cart/domain/usecases/add_to_cart_usecase.dart';
+import 'package:bookia/features/wish_list/domain/usecases/add_to_wishlist_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class BookDetailsCubit extends Cubit<BookDetailsState> {
-  BookDetailsCubit() : super(BookDetailsInitialState());
+  final AddToWishlistUseCase addToWishlistUseCase;
+  final AddToCartUseCase addToCartUseCase;
+
+  BookDetailsCubit({
+    required this.addToWishlistUseCase,
+    required this.addToCartUseCase,
+  }) : super(BookDetailsInitialState());
 
   List<CartItem?> cartItems = [];
 
-  Future<void> addToWishList(int productId) async {
+  void addToWishList(int productId) async {
     emit(AddToWishListLoadingState());
 
-    final data = await WishListRepo.addToWishList(productId);
+    var response = await addToWishlistUseCase.call(productId);
 
-    if (data != null) {
-      final products = data.data?.product ?? [];
-      SharedPref.cacheWishListIds(products.cast<int>());
-
+    response.fold((l) => emit(AddToWishListErrorState()), (data) {
+      var products = data.data?.product ?? [];
+      SharedPref.cashWishListIds(products);
       emit(AddToWishListSuccessState());
-    } else {
-      emit(AddToWishListErrorState(
-        'Failed to add to wishlist. Please try again.',
-      ));
-    }
+    });
   }
 
   bool isInWishList(int productId) {
-    final ids = SharedPref.getWishListIds();
-    return ids.contains(productId);
+    var wishListIds = SharedPref.getWishListIds();
+    return wishListIds.contains(productId);
   }
 
-  Future<void> addToCart(int productId) async {
+  void addToCart(int productId) async {
     emit(AddToCartLoadingState());
 
-    final data = await CartRepo.addToCart(productId);
+    final response = await addToCartUseCase.call(productId);
 
-    if (data != null) {
+    response.fold((l) => emit(AddToCartErrorState()), (data) {
       cartItems = data.cartItems ?? [];
-      SharedPref.cacheCartListIds(cartItems.cast<int>());
-
+      SharedPref.cashCartListIds(cartItems);
       emit(AddToCartSuccessState());
-    } else {
-      emit(AddToCartErrorState(
-        'Failed to add to cart. Please try again.',
-      ));
-    }
+    });
   }
 
   bool isInCart(int productId) {
-    final ids = SharedPref.getCartListIds();
-    return ids.contains(productId);
+    var cartListIds = SharedPref.getCartListIds();
+    return cartListIds.contains(productId);
   }
 }

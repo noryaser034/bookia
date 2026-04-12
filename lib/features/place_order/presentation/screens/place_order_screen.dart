@@ -100,9 +100,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
         }
 
         if (state is PlaceOrderErrorState) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(context.translate(state.message))));
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(context.translate(state.message))),
+          );
         }
       },
       builder: (context, state) {
@@ -125,8 +125,10 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(context.translate("place_order"),
-                        style: TextStyles.w400s30),
+                    Text(
+                      context.translate("place_order"),
+                      style: TextStyles.w400s30,
+                    ),
                     const Gap(10),
                     Text(
                       context.translate("place_order_subtitle"),
@@ -140,9 +142,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                       controller: _nameController,
                       validator: (value) => AppValidators.name(
                         value,
-                        emptyMessage: context.translate("validation_name_empty"),
-                        invalidMessage:
-                            context.translate("validation_name_invalid"),
+                        emptyMessage: context.translate(
+                          "validation_name_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_name_invalid",
+                        ),
                       ),
                     ),
                     const Gap(12),
@@ -151,9 +156,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                       controller: _emailController,
                       validator: (value) => AppValidators.email(
                         value,
-                        emptyMessage: context.translate("validation_email_empty"),
-                        invalidMessage:
-                            context.translate("validation_email_invalid"),
+                        emptyMessage: context.translate(
+                          "validation_email_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_email_invalid",
+                        ),
                       ),
                       keyboardType: TextInputType.emailAddress,
                     ),
@@ -163,10 +171,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                       controller: _addressController,
                       validator: (value) => AppValidators.address(
                         value,
-                        emptyMessage:
-                            context.translate("validation_address_empty"),
-                        invalidMessage:
-                            context.translate("validation_address_short"),
+                        emptyMessage: context.translate(
+                          "validation_address_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_address_short",
+                        ),
                       ),
                     ),
                     const Gap(12),
@@ -175,9 +185,12 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                       controller: _phoneController,
                       validator: (value) => AppValidators.phone(
                         value,
-                        emptyMessage: context.translate("validation_phone_empty"),
-                        invalidMessage:
-                            context.translate("validation_phone_invalid"),
+                        emptyMessage: context.translate(
+                          "validation_phone_empty",
+                        ),
+                        invalidMessage: context.translate(
+                          "validation_phone_invalid",
+                        ),
                       ),
                       keyboardType: TextInputType.phone,
                     ),
@@ -189,8 +202,9 @@ class _PlaceOrderScreenState extends State<PlaceOrderScreen> {
                       onTap: _showGovernoratesBottomSheet,
                       validator: (value) {
                         if (value == null || value.trim().isEmpty) {
-                          return context
-                              .translate("validation_governorate_empty");
+                          return context.translate(
+                            "validation_governorate_empty",
+                          );
                         }
                         return null;
                       },

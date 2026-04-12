@@ -1,48 +1,58 @@
 import 'package:bookia/core/services/local/shared_pref.dart';
+import 'package:bookia/core/usecase/usecase.dart';
 import 'package:bookia/features/cart/data/models/cart_response/cart_item.dart';
 import 'package:bookia/features/cart/data/models/cart_response/data.dart';
 import 'package:bookia/features/cart/data/models/checkout_response/checkout_data.dart';
-import 'package:bookia/features/cart/data/repo/cart_repo.dart';
+import 'package:bookia/features/cart/domain/usecases/add_to_cart_usecase.dart';
+import 'package:bookia/features/cart/domain/usecases/checkout_usecase.dart';
+import 'package:bookia/features/cart/domain/usecases/get_cart_usecase.dart';
+import 'package:bookia/features/cart/domain/usecases/remove_from_cart_usecase.dart';
+import 'package:bookia/features/cart/domain/usecases/update_cart_usecase.dart';
 import 'package:bookia/features/cart/presentation/cubit/cart_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartCubit extends Cubit<CartState> {
-  CartCubit() : super(CartInitialState());
+  final GetCartUseCase getCartUseCase;
+  final AddToCartUseCase addToCartUseCase;
+  final RemoveFromCartUseCase removeFromCartUseCase;
+  final UpdateCartUseCase updateCartUseCase;
+  final CheckoutUseCase checkoutUseCase;
+
+  CartCubit({
+    required this.getCartUseCase,
+    required this.addToCartUseCase,
+    required this.removeFromCartUseCase,
+    required this.updateCartUseCase,
+    required this.checkoutUseCase,
+  }) : super(CartInitialState());
 
   Data? cartData;
   CheckoutData? checkoutData;
-
   List<CartItem?> get cartItems => cartData?.cartItems ?? [];
 
-  double get totalPrice =>
-      double.tryParse(cartData?.total ?? '0') ?? 0.0;
+  double get totalPrice => double.tryParse(cartData?.total ?? '0') ?? 0.0;
 
   Future<void> getCartItems() async {
     emit(CartLoadingState());
 
-    final data = await CartRepo.getCartItems();
+    final response = await getCartUseCase.call(NoParams());
 
-    if (data != null) {
+    response.fold((l) => emit(CartErrorState()), (data) {
       cartData = data;
-      SharedPref.cacheCartListIds(cartItems.cast<int>());
+      SharedPref.cashCartListIds(cartItems);
       emit(CartSuccessState());
-    } else {
-      emit(CartErrorState());
-    }
+    });
   }
 
   Future<void> removeFromCart(int itemId) async {
-    final isRemoved = await CartRepo.removeFromCart(itemId);
+    final response = await removeFromCartUseCase.call(itemId);
 
-    if (isRemoved) {
-      cartData?.cartItems?.removeWhere((e) => e.itemId == itemId);
-      SharedPref.cacheCartListIds(cartItems.cast<int>());
-
+    response.fold((l) => emit(CartErrorState()), (_) async {
+      cartData?.cartItems?.removeWhere((item) => item.itemId == itemId);
+      SharedPref.cashCartListIds(cartItems);
       emit(CartSuccessState());
       await getCartItems();
-    } else {
-      emit(CartErrorState());
-    }
+    });
   }
 
   Future<void> updateCartQuantity({
@@ -51,40 +61,45 @@ class CartCubit extends Cubit<CartState> {
   }) async {
     if (quantity < 1) return;
 
-    final index = cartItems.indexWhere((e) => e?.itemId == itemId);
-    if (index == -1) return;
+    final itemIndex = cartItems.indexWhere((item) => item?.itemId == itemId);
 
-    final stock = cartItems[index]?.itemProductStock ?? 0;
+    if (itemIndex == -1) return;
+
+    final currentItem = cartItems[itemIndex];
+    final stock = currentItem?.itemProductStock ?? 0;
+
     if (quantity > stock) return;
 
     emit(CartLoadingState());
 
-    final data = await CartRepo.updateCartQuantity(
-      cartItemId: itemId,
-      quantity: quantity,
+    final response = await updateCartUseCase.call(
+      UpdateCartParams(cartItemId: itemId, quantity: quantity),
     );
 
-    if (data != null) {
+    response.fold((l) => emit(CartErrorState()), (data) {
       cartData = data;
-      SharedPref.cacheCartListIds(cartItems.cast<int>());
+      SharedPref.cashCartListIds(cartItems);
       emit(CartSuccessState());
-    } else {
-      emit(CartErrorState());
-    }
+    });
   }
 
   Future<bool> checkout() async {
     emit(CheckoutLoadingState());
+    checkoutData = null;
 
-    final data = await CartRepo.checkout();
+    final response = await checkoutUseCase.call(NoParams());
 
-    if (data != null) {
-      checkoutData = data;
-      emit(CheckoutSuccessState());
-      return true;
-    } else {
-      emit(CheckoutErrorState());
-      return false;
-    }
+    return response.fold(
+      (l) {
+        emit(CheckoutErrorState());
+        return false;
+      },
+      (data) {
+        checkoutData = data;
+        SharedPref.cashCartListIds(cartItems);
+        emit(CheckoutSuccessState());
+        return true;
+      },
+    );
   }
 }

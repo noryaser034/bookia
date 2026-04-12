@@ -1,48 +1,42 @@
-import 'dart:developer';
-
+import 'package:bookia/core/usecase/usecase.dart';
 import 'package:bookia/core/services/local/shared_pref.dart';
 import 'package:bookia/features/home/home/data/models/product_model/product.dart';
-import 'package:bookia/features/wish_list/data/repo/wish_list_repo.dart';
+import 'package:bookia/features/wish_list/domain/usecases/add_to_wishlist_usecase.dart';
+import 'package:bookia/features/wish_list/domain/usecases/get_wishlist_usecase.dart';
+import 'package:bookia/features/wish_list/domain/usecases/remove_from_wishlist_usecase.dart';
 import 'package:bookia/features/wish_list/presentation/cubit/wish_list_state.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class WishListCubit extends Cubit<WishListState> {
-  WishListCubit() : super(WishListInitialState());
+  final GetWishlistUseCase getWishlistUseCase;
+  final AddToWishlistUseCase addToWishlistUseCase;
+  final RemoveFromWishlistUseCase removeFromWishlistUseCase;
+
+  WishListCubit({
+    required this.getWishlistUseCase,
+    required this.addToWishlistUseCase,
+    required this.removeFromWishlistUseCase,
+  }) : super(WishListInitialState());
 
   List<Product> products = [];
 
-  Future<void> getWishList() async {
+  void getWishList() async {
     emit(WishListLoadingState());
-
-    final data = await WishListRepo.getWishList();
-
-    if (data != null) {
+    var response = await getWishlistUseCase.call(NoParams());
+    response.fold((l) => emit(WishListErrorState()), (data) {
       products = data.data?.product ?? [];
-
-      SharedPref.cacheWishListIds(products.cast<int>());
-
-      log(products.length.toString());
-
+      SharedPref.cashWishListIds(products);
       emit(WishListSuccessState());
-    } else {
-      emit(WishListErrorState());
-    }
+    });
   }
 
-  Future<void> removeFromWishList(int productId) async {
+  void removeFromWishList(int productId) async {
     emit(WishListLoadingState());
-
-    final data = await WishListRepo.removeFromWishList(productId);
-
-    if (data != null) {
+    var response = await removeFromWishlistUseCase.call(productId);
+    response.fold((l) => emit(WishListErrorState()), (data) {
       products = data.data?.product ?? [];
-
-     
-      SharedPref.cacheWishListIds(products.cast<int>());
-
+      SharedPref.cashWishListIds(products);
       emit(WishListSuccessState());
-    } else {
-      emit(WishListErrorState());
-    }
+    });
   }
 }
